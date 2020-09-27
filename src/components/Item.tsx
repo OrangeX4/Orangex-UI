@@ -1,5 +1,6 @@
-import React from "react"
+import React from 'react'
 import '../css/Item.css'
+import folderImg from '../assets/folder.png'
 
 interface Props {
     name: String;
@@ -10,7 +11,7 @@ function Item(props: Props) {
 return (
     <div>
         <div className="root">
-            {/* <img /> */}
+            <img src={folderImg} alt='folder' />
             <div className="text">
                 <span className="name">{ props.name }</span>
                 <br />
