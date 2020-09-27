@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import Item from './components/Item'
 import Breadcrumb from './components/BreadCrumb'
@@ -16,6 +16,7 @@ function App() {
     xhr.open('GET', url, true)
     xhr.send()
     xhr.onreadystatechange = function () {
+      alert(xhr.readyState + '  ' + xhr.status)
       if (xhr.readyState === 4 && xhr.status === 200) {
         var res = JSON.parse(xhr.responseText)
         if (res.isExist) {
@@ -24,6 +25,11 @@ function App() {
       }
     };
   }
+
+  // didMount
+  useEffect(() => {
+    forward('/home')
+  }, [])
 
   return (
     <div className='App'>
