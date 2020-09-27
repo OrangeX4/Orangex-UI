@@ -1,4 +1,5 @@
 import React from 'react'
+import copy from 'copy-to-clipboard';
 
 import '../css/BreadCrumb.css'
 
@@ -9,7 +10,7 @@ interface Props {
 function Breadcrumb(props: Props) {
 
     return (
-        <p className='breadcrumb'>{props.text.replace(/\//g, ' / ')}</p>
+        <p className='breadcrumb' onClick={() => { copy(props.text) ? alert('Copy success') : alert('Copy fail') }}>{props.text.replace(/\//g, ' / ')}</p>
     )
 }
 
