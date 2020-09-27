@@ -16,7 +16,7 @@ function App() {
     xhr.open('GET', url, true)
     xhr.send()
     xhr.onreadystatechange = function () {
-      alert(xhr.readyState + '  ' + xhr.status)
+      // alert(xhr.readyState + '  ' + xhr.status)
       if (xhr.readyState === 4 && xhr.status === 200) {
         var res = JSON.parse(xhr.responseText)
         if (res.isExist) {
