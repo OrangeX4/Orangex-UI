@@ -11,7 +11,7 @@ interface Props {
 
 function Item(props: Props) {
 
-    function selectImg(name: string) {
+    function selectImg(name: string): string {
         switch (name) {
             case 'folder':
                 return folderImg
