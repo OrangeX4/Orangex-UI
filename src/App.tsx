@@ -9,6 +9,22 @@ function App() {
   // eslint-disable-next-line
   const [state, setState] = useState(example);
 
+  function forward(dirname: string) {
+    var url = 'http://127.0.0.1:1984/dir?dir=' + dirname
+
+    var xhr = new XMLHttpRequest()
+    xhr.open('GET', url, true)
+    xhr.send()
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        var res = JSON.parse(xhr.responseText)
+        if (res.isExist) {
+          setState(res)
+        }
+      }
+    };
+  }
+
   return (
     <div className='App'>
       <Breadcrumb text={state.current} />
