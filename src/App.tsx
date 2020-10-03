@@ -28,7 +28,7 @@ function App() {
 
   // didMount
   useEffect(() => {
-    forward('/home')
+    forward('.')
   }, [])
 
   return (
