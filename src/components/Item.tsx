@@ -6,7 +6,8 @@ import fileImg from '../assets/file.png'
 interface Props {
     name: string;
     description: string;
-    icon: string
+    icon: string;
+    onClick?: ((event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void) | undefined
 }
 
 function Item(props: Props) {
@@ -23,7 +24,7 @@ function Item(props: Props) {
     }
 
     return (
-        <div>
+        <div onClick={props.onClick}>
             <div className="root">
                 <img src={selectImg(props.icon)} alt={props.icon} />
                 <div className="text">

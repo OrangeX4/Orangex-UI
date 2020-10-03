@@ -34,9 +34,9 @@ function App() {
   return (
     <div className='App'>
       <Breadcrumb text={state.current} />
-      <Item name='..' description='Return to parent folder' icon='folder' />
-      <Item name='.' description='Refresh current folder' icon='folder' />
-      {state.dirs.map((dir) => <Item name={dir.name} description={dir.items + ' Items'} icon='folder' key={dir.name} />)}
+      <Item onClick={() => { forward('..') }} name='..' description='Return to parent folder' icon='folder' />
+      <Item onClick={() => { forward('.') }} name='.' description='Refresh current folder' icon='folder' />
+      {state.dirs.map((dir) => <Item onClick={() => { forward(dir.name) }} name={dir.name} description={dir.items + ' Items'} icon='folder' key={dir.name} />)}
       {state.files.map((file) => <Item name={file.name} description={file.showSize + ' | ' + file.lastTime} icon='file' key={file.name} />)}
     </div>
   );
