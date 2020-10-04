@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import '../css/Item.css'
 import folderImg from '../assets/folder.png'
 import fileImg from '../assets/file.png'
@@ -27,28 +27,29 @@ function Item(props: Props) {
         }
     }
 
-    let touchTimeStamp: number
-    let isTouch: boolean = true
+    // Click and Press
+    let touchTimeOut: NodeJS.Timeout
+    const [isClick, setIsClick] = useState(true)
 
     function handleTouchStart() {
-        isTouch = true
-        touchTimeStamp = new Date().getTime()
+        touchTimeOut = setTimeout(() => {
+            setIsClick(false)
+            if (props.onLongPress) props.onLongPress()
+        }, 500)
     }
 
     function handleTouchEnd() {
-        let currentTimeStamp = new Date().getTime()
-        if(isTouch){
-            if (currentTimeStamp - touchTimeStamp < 500) {
-                if (props.onClick) props.onClick()
-            } else {
-                // alert('press')
-                if (props.onLongPress) props.onLongPress()
-            }
+        clearTimeout(touchTimeOut)
+        if (isClick) {
+            if (props.onClick) props.onClick()
+        } else {
+            setIsClick(true)
         }
     }
 
     function handleTouchMove() {
-        isTouch = false
+        clearTimeout(touchTimeOut)
+        setIsClick(false)
     }
 
     // function handleClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
