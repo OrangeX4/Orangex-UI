@@ -6,7 +6,7 @@ import okImg from '../assets/ok.png'
 import cancleImg from '../assets/cancle.png'
 
 
-function FooterActive(){
+function FooterActive() {
 
     return (
         <div className='footer'>

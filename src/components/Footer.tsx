@@ -7,7 +7,7 @@ import moveImg from '../assets/move.png'
 import renameImg from '../assets/rename.png'
 import deleteImg from '../assets/delete.png'
 
-function Footer(){
+function Footer() {
 
     return (
         <div className='footer'>
