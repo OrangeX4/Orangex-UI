@@ -3,6 +3,9 @@ import React, { useState, useEffect } from 'react'
 import Item from './components/Item'
 import Breadcrumb from './components/BreadCrumb'
 import Footer from './components/Footer'
+import FooterActive from './components/FooterActive'
+
+import './css/App.css'
 
 import example from './test/example.json'
 
@@ -61,17 +64,21 @@ function App() {
   }
 
 
+  // Footer
+  const [isActive, setIsActive] = useState(false)
+
+
   // Render
   return (
     <div className='App'>
       <Breadcrumb text={state.current} />
-
-      <Item onClick={() => { forward(state.current + '/..') }} name='..' description='Return to parent folder' icon='folder' />
-      <Item onClick={() => { forward(state.current + '/.') }} name='.' description='Refresh current folder' icon='folder' />
-      {state.dirs.map((dir) => <Item onLongPress={() => handleSelectedDirChange(dir.name)} isSelect={selectedDirs[dir.name]} onClick={() => { forward(state.current + '/' + dir.name) }} name={dir.name} description={dir.items + ' Items'} icon='folder' key={dir.name} />)}
-      {state.files.map((file) => <Item onLongPress={() => handleSelectedFileChange(file.name)} isSelect={selectedFiles[file.name]} name={file.name} description={file.showSize + ' | ' + file.lastTime} icon='file' key={file.name} />)}
-
-      <Footer />
+      <div className='main'>
+        <Item onClick={() => { forward(state.current + '/..') }} name='..' description='Return to parent folder' icon='folder' />
+        <Item onClick={() => { forward(state.current + '/.') }} name='.' description='Refresh current folder' icon='folder' />
+        {state.dirs.map((dir) => <Item onLongPress={() => handleSelectedDirChange(dir.name)} isSelect={selectedDirs[dir.name]} onClick={() => { forward(state.current + '/' + dir.name) }} name={dir.name} description={dir.items + ' Items'} icon='folder' key={dir.name} />)}
+        {state.files.map((file) => <Item onLongPress={() => handleSelectedFileChange(file.name)} isSelect={selectedFiles[file.name]} name={file.name} description={file.showSize + ' | ' + file.lastTime} icon='file' key={file.name} />)}
+      </div>
+      {isActive ? <FooterActive /> : <Footer />}
     </div>
   );
 }
