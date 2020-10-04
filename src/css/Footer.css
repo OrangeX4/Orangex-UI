@@ -4,4 +4,25 @@
     height: 70px;
     width: 100%;
     background-color: white;
+    text-align: center;
+}
+
+.footer-button {
+    height: 70px;
+    width: 20%;
+    display: inline-block;
+}
+
+.footer-img {
+    height: 30px;
+    padding-top: 15px;
+    display: block;
+    margin: 0 auto;
+}
+
+.footer-text {
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    color:#515151;
 }
