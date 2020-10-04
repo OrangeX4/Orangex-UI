@@ -18,6 +18,8 @@
     padding-top: 15px;
     display: block;
     margin: 0 auto;
+
+    box-sizing: content-box;
 }
 
 .footer-text {
