@@ -2,16 +2,9 @@ import React, { useState, useEffect } from 'react'
 
 import Item from './components/Item'
 import Breadcrumb from './components/BreadCrumb'
+import Footer from './components/Footer'
 
 import example from './test/example.json'
-
-
-interface SelectedDirs {
-  [ItemName: string]: boolean
-}
-interface SelectedFiles {
-  [ItemName: string]: boolean
-}
 
 
 function App() {
@@ -39,13 +32,19 @@ function App() {
     };
   }
 
-  // didMount
   useEffect(() => {
     forward('.')
   }, [])
 
 
   // Current selected items
+  interface SelectedDirs {
+    [ItemName: string]: boolean
+  }
+  interface SelectedFiles {
+    [ItemName: string]: boolean
+  }
+
   const [selectedDirs, setSelectedDirs] = useState({} as SelectedDirs)
   const [selectedFiles, setSelectedFiles] = useState({} as SelectedFiles)
 
@@ -62,14 +61,17 @@ function App() {
   }
 
 
-
+  // Render
   return (
     <div className='App'>
       <Breadcrumb text={state.current} />
+
       <Item onClick={() => { forward(state.current + '/..') }} name='..' description='Return to parent folder' icon='folder' />
       <Item onClick={() => { forward(state.current + '/.') }} name='.' description='Refresh current folder' icon='folder' />
       {state.dirs.map((dir) => <Item onLongPress={() => handleSelectedDirChange(dir.name)} isSelect={selectedDirs[dir.name]} onClick={() => { forward(state.current + '/' + dir.name) }} name={dir.name} description={dir.items + ' Items'} icon='folder' key={dir.name} />)}
       {state.files.map((file) => <Item onLongPress={() => handleSelectedFileChange(file.name)} isSelect={selectedFiles[file.name]} name={file.name} description={file.showSize + ' | ' + file.lastTime} icon='file' key={file.name} />)}
+
+      <Footer />
     </div>
   );
 }
