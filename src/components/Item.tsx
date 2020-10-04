@@ -2,11 +2,13 @@ import React from 'react'
 import '../css/Item.css'
 import folderImg from '../assets/folder.png'
 import fileImg from '../assets/file.png'
+import selectPng from '../assets/select.png'
 
 interface Props {
     name: string;
     description: string;
     icon: string;
+    isSelect?: boolean;
     onClick?: ((event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void) | undefined
 }
 
@@ -25,13 +27,14 @@ function Item(props: Props) {
 
     return (
         <div onClick={props.onClick}>
-            <div className="root">
-                <img src={selectImg(props.icon)} alt={props.icon} />
-                <div className="text">
-                    <span className="name">{props.name}</span>
+            <div className="item-root">
+                <img className="item-icon" src={selectImg(props.icon)} alt={props.icon} />
+                <div className="item-text">
+                    <span className="item-name">{props.name}</span>
                     <br />
-                    <span className="description">{props.description}</span>
+                    <span className="item-description">{props.description}</span>
                 </div>
+                {props.isSelect?<img className="item-select" src={selectPng} alt="select" />:null}
             </div>
         </div>
     )

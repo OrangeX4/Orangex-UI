@@ -37,7 +37,7 @@ function App() {
       <Item onClick={() => { forward(state.current + '/..') }} name='..' description='Return to parent folder' icon='folder' />
       <Item onClick={() => { forward(state.current + '/.') }} name='.' description='Refresh current folder' icon='folder' />
       {state.dirs.map((dir) => <Item onClick={() => { forward(state.current + '/' + dir.name) }} name={dir.name} description={dir.items + ' Items'} icon='folder' key={dir.name} />)}
-      {state.files.map((file) => <Item name={file.name} description={file.showSize + ' | ' + file.lastTime} icon='file' key={file.name} />)}
+      {state.files.map((file) => <Item isSelect={true} name={file.name} description={file.showSize + ' | ' + file.lastTime} icon='file' key={file.name} />)}
     </div>
   );
 }
