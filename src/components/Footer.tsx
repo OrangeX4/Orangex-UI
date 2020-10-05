@@ -17,10 +17,10 @@ interface Props {
 function Footer(props: Props) {
 
     // State
-    const [state, setState] = useState('main' as 'main'|'confirm')
+    const [state, setState] = useState('single' as 'single'| 'confirm')
     function getStateView() {
-        switch(state) {
-            case 'main':
+        switch (state) {
+            case 'single':
                 return (<FooterSelected
                     onCopy={onCopy}
                     onMove={onMove}
@@ -29,13 +29,13 @@ function Footer(props: Props) {
                 />)
                 break
             case 'confirm':
-                return (<FooterConfirm onCancle={() => setState('main')} onOk={handleOk} />)
+                return (<FooterConfirm onCancle={() => setState('single')} onOk={handleOk} />)
                 break
         }
     }
 
     // Copy and Move
-    const [currentFunc, setHandleFunc] = useState('copy' as 'copy'|'move')
+    const [currentFunc, setHandleFunc] = useState('copy' as 'copy' | 'move')
     const [savedDirs, setSavedDirs] = useState(getArray(props.selectedDirs))
     const [savedFiles, setSavedFiles] = useState(getArray(props.selectedFiles))
 
@@ -64,7 +64,7 @@ function Footer(props: Props) {
     function handleCopy() {
         props.onCopy(savedDirs, savedFiles)
     }
-    
+
     function handleMove() {
         props.onMove(savedDirs, savedFiles)
     }
@@ -79,7 +79,7 @@ function Footer(props: Props) {
                 break
             default:
         }
-        setState('main')
+        setState('single')
     }
 
     // Render
