@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import FooterMain from './FooterMain'
+import FooterSelected from './FooterSelected'
 import FooterConfirm from './FooterConfirm'
 
 interface SelectedItems {
@@ -21,7 +21,7 @@ function Footer(props: Props) {
     function getStateView() {
         switch(state) {
             case 'main':
-                return (<FooterMain
+                return (<FooterSelected
                     onCopy={onCopy}
                     onMove={onMove}
                     onRename={(newName) => alert(`rename: ${newName}`)}

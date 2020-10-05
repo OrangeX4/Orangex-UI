@@ -7,7 +7,6 @@ import '../css/Footer.css'
 
 import copyImg from '../assets/copy.png'
 import moveImg from '../assets/move.png'
-import newImg from '../assets/new.png'
 
 
 interface Props {
@@ -18,7 +17,7 @@ interface Props {
     onDelete: () => void
 }
 
-function FooterMain(props: Props) {
+function FooterSelected(props: Props) {
 
     return (
         <div className='footer'>
@@ -30,10 +29,6 @@ function FooterMain(props: Props) {
                 <img className='footer-img' src={moveImg} alt='move' />
                 <span className='footer-text'>Move</span>
             </div>
-            <div className='footer-button'>
-                <img className='footer-img' src={newImg} alt='new' />
-                <span className='footer-text'>New</span>
-            </div>
             <RenameButton currentName={props.currentName} onRename={(newName) => { props.onRename(newName) }} />
             <DeleteButton onDelete={props.onDelete} />
 
@@ -42,4 +37,4 @@ function FooterMain(props: Props) {
     )
 }
 
-export default FooterMain
+export default FooterSelected
