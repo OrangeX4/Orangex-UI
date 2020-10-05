@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import Item from './components/Item'
 import Breadcrumb from './components/BreadCrumb'
-import FooterMain from './components/FooterMain'
-import FooterActive from './components/FooterActive'
+import Footer from './components/Footer'
 
 import './css/App.css'
 
@@ -60,57 +59,6 @@ function App() {
     setSelectedFiles(newSelectedFiles)
   }
 
-
-  // Footer
-  const [isActive, setIsActive] = useState(false)
-  const [currentFunc, setHandleFunc] = useState('copy')
-  const [savedDirs, setSavedDirs] = useState(getArray(selectedDirs))
-  const [savedFiles, setSavedFiles] = useState(getArray(selectedFiles))
-
-  function getArray(items: SelectedItems): string[] {
-    const itemsArray = []
-    for(const key in items){
-      if(items[key]) itemsArray.push(key)
-    }
-    return itemsArray
-  }
-
-  function onCopy() {
-    setSavedDirs(getArray(selectedDirs))
-    setSavedFiles(getArray(selectedFiles))
-    setHandleFunc('copy')
-    setIsActive(true)
-  }
-
-  function onMove() {
-    setSavedDirs(getArray(selectedDirs))
-    setSavedFiles(getArray(selectedFiles))
-    setHandleFunc('move')
-    setIsActive(true)
-  }
-
-  function handleCopy() {
-    alert('copy\n' + JSON.stringify(savedDirs) + JSON.stringify(savedFiles))
-  }
-  
-  function handleMove() {
-    alert('move\n' + savedDirs + savedFiles)
-  }
-
-  function handleOk() {
-    switch(currentFunc){
-      case 'copy':
-        handleCopy()
-        break
-      case 'move':
-        handleMove()
-        break
-      default:
-    }
-    setIsActive(false)
-  }
-
-
   // Render
   return (
     <div className='App'>
@@ -121,14 +69,9 @@ function App() {
         {state.dirs.map((dir) => <Item onLongPress={() => handleSelectedDirChange(dir.name)} isSelect={selectedDirs[dir.name]} onClick={() => { forward(state.current + '/' + dir.name) }} name={dir.name} description={dir.items + ' Items'} icon='folder' key={dir.name} />)}
         {state.files.map((file) => <Item onLongPress={() => handleSelectedFileChange(file.name)} isSelect={selectedFiles[file.name]} name={file.name} description={file.showSize + ' | ' + file.lastTime} icon='file' key={file.name} />)}
       </div>
-      {isActive ? <FooterActive onCancle={() => setIsActive(false)} onOk={handleOk} /> : <FooterMain
-        onCopy={onCopy}
-        onMove={onMove}
-        onRename={(newName) => alert(`rename: ${newName}`)}
-        onDelete={() => alert('delete')}
-      />}
+      <Footer onCopy={()=>alert('copy')} onMove={()=>alert('move')} selectedDirs={selectedDirs} selectedFiles={selectedFiles}></Footer>
     </div>
-  );
+  )
 }
 
 export default App
