@@ -59,6 +59,11 @@ function App() {
     setSelectedFiles(newSelectedFiles)
   }
 
+  function handleUnselect() {
+    setSelectedDirs({})
+    setSelectedFiles({})
+  }
+
   // Render
   return (
     <div className='App'>
@@ -69,7 +74,7 @@ function App() {
         {state.dirs.map((dir) => <Item onLongPress={() => handleSelectedDirChange(dir.name)} isSelect={selectedDirs[dir.name]} onClick={() => { forward(state.current + '/' + dir.name) }} name={dir.name} description={dir.items + ' Items'} icon='folder' key={dir.name} />)}
         {state.files.map((file) => <Item onLongPress={() => handleSelectedFileChange(file.name)} isSelect={selectedFiles[file.name]} name={file.name} description={file.showSize + ' | ' + file.lastTime} icon='file' key={file.name} />)}
       </div>
-      <Footer onCopy={(dirs, files) => alert('copy:' + dirs + files)} onMove={(dirs, files) => alert('move:' + dirs + files)} selectedDirs={selectedDirs} selectedFiles={selectedFiles}></Footer>
+      <Footer onDelete={() => alert('delete')} onRename={(old, newn) => { alert(`old:${old} new:${newn}`) }} onUnselect={handleUnselect} onCopy={(dirs, files) => alert('copy:' + dirs + files)} onMove={(dirs, files) => alert('move:' + dirs + files)} selectedDirs={selectedDirs} selectedFiles={selectedFiles}></Footer>
     </div>
   )
 }

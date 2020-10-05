@@ -1,19 +1,18 @@
 import React from 'react'
 
 import DeleteButton from './DeleteButton'
-import RenameButton from './RenameButton'
 
 import '../css/Footer.css'
 
 import copyImg from '../assets/copy.png'
 import moveImg from '../assets/move.png'
+import cancleImg from '../assets/cancle.png'
 
 
 interface Props {
     onCopy: () => void
     onMove: () => void
-    onRename: (newName: string) => void
-    currentName?: string
+    onUnselect: () => void
     onDelete: () => void
 }
 
@@ -29,10 +28,11 @@ function FooterSelected(props: Props) {
                 <img className='footer-img' src={moveImg} alt='move' />
                 <span className='footer-text'>Move</span>
             </div>
-            <RenameButton currentName={props.currentName} onRename={(newName) => { props.onRename(newName) }} />
+            <div onClick={props.onUnselect} className='footer-button'>
+                <img className='footer-img' src={cancleImg} alt='unselect' />
+                <span className='footer-text'>Unselect</span>
+            </div>
             <DeleteButton onDelete={props.onDelete} />
-
-
         </div>
     )
 }

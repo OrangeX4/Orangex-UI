@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 
-import FooterSelected from './FooterSelected'
+import FooterMain from './FooterMain'
 import FooterConfirm from './FooterConfirm'
+import FooterSelected from './FooterSelected'
+import FooterSingle from './FooterSingle'
 
 interface SelectedItems {
     [ItemName: string]: boolean
@@ -12,26 +14,63 @@ interface Props {
     selectedFiles: SelectedItems
     onCopy: (dirs: string[], files: string[]) => void
     onMove: (dirs: string[], files: string[]) => void
+    onRename: (oldName: string, newName: string) => void
+    onDelete: () => void
+    onUnselect: () => void
 }
 
 function Footer(props: Props) {
 
     // State
-    const [state, setState] = useState('single' as 'single'| 'confirm')
+    const [state, setState] = useState('main' as 'main' | 'selected' | 'single' | 'confirm')
     function getStateView() {
         switch (state) {
-            case 'single':
+            case 'main':
+                return (<FooterMain></FooterMain>)
+            case 'selected':
                 return (<FooterSelected
                     onCopy={onCopy}
                     onMove={onMove}
-                    onRename={(newName) => alert(`rename: ${newName}`)}
-                    onDelete={() => alert('delete')}
+                    onUnselect={props.onUnselect}
+                    onDelete={props.onDelete}
+                />)
+                break
+            case 'single':
+                return (<FooterSingle
+                    onCopy={onCopy}
+                    onMove={onMove}
+                    onRename={handleRename}
+                    onDelete={props.onDelete}
                 />)
                 break
             case 'confirm':
-                return (<FooterConfirm onCancle={() => setState('single')} onOk={handleOk} />)
+                return (<FooterConfirm onCancle={handleCancle} onOk={handleOk} />)
                 break
         }
+    }
+    useEffect(() => {
+        const count = getArray(props.selectedDirs).length + getArray(props.selectedFiles).length
+        switch (state) {
+            case 'main':
+                if (count == 1) setState('single')
+                else if (count > 1) setState('selected')
+                break
+            case 'single':
+                if (count == 0) setState('main')
+                else if (count > 1) setState('selected')
+                break
+            case 'selected':
+                if (count == 0) setState('main')
+                else if (count == 1) setState('single')
+                break
+            default:
+        }
+    }, [props.selectedDirs, props.selectedFiles])
+
+    // Rename
+    function handleRename(newName: string) {
+        if (getArray(props.selectedDirs).length > 0) props.onRename(getArray(props.selectedDirs)[0], newName)
+        else if (getArray(props.selectedFiles).length > 0) props.onRename(getArray(props.selectedFiles)[0], newName)
     }
 
     // Copy and Move
@@ -69,6 +108,11 @@ function Footer(props: Props) {
         props.onMove(savedDirs, savedFiles)
     }
 
+    function handleCancle() {
+        props.onUnselect()
+        setState('main')
+    }
+
     function handleOk() {
         switch (currentFunc) {
             case 'copy':
@@ -79,7 +123,8 @@ function Footer(props: Props) {
                 break
             default:
         }
-        setState('single')
+        props.onUnselect()
+        setState('main')
     }
 
     // Render
