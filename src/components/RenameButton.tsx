@@ -8,12 +8,13 @@ import renameImg from '../assets/rename.png'
 
 interface Props {
     onRename: (newName: string) => void
+    currentName?: string
 }
 
 function RenameButton(props: Props) {
 
     const [isDisplay, setIsDisplay] = useState(false)
-    function handleRename(newName: string){
+    function handleRename(newName: string) {
         setIsDisplay(false)
         props.onRename(newName)
     }
@@ -23,9 +24,14 @@ function RenameButton(props: Props) {
         setInputValue(e.target.value)
     }
 
+    function handleClick() {
+        setInputValue(props.currentName ? props.currentName : '')
+        setIsDisplay(true)
+    }
+
     return (
         <div className='footer-button'>
-            <div onClick={() => setIsDisplay(true)}>
+            <div onClick={handleClick}>
                 <img className='footer-img' src={renameImg} alt='rename' />
                 <span className='footer-text'>Rename</span>
             </div>

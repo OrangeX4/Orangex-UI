@@ -10,6 +10,10 @@ import moveImg from '../assets/move.png'
 
 
 interface Props {
+    onCopy: () => void
+    onMove: () => void
+    onRename: (newName: string) => void
+    currentName?: string
     onDelete: () => void
 }
 
@@ -17,16 +21,15 @@ function Footer(props: Props) {
 
     return (
         <div className='footer'>
-            <div className='footer-button'>
+            <div onClick={props.onCopy} className='footer-button'>
                 <img className='footer-img' src={copyImg} alt='copy' />
                 <span className='footer-text'>Copy</span>
             </div>
-            <div className='footer-button'>
+            <div onClick={props.onMove} className='footer-button'>
                 <img className='footer-img' src={moveImg} alt='move' />
                 <span className='footer-text'>Move</span>
             </div>
-
-            <RenameButton onRename={(newName)=>{alert(newName)}} />
+            <RenameButton currentName={props.currentName} onRename={(newName) => { props.onRename(newName) }} />
             <DeleteButton onDelete={props.onDelete} />
 
         </div>
