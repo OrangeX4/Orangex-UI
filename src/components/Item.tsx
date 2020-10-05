@@ -28,14 +28,15 @@ function Item(props: Props) {
     }
 
     // Click and Press
-    let touchTimeOut: NodeJS.Timeout
+    const [touchTimeOut, setTouchTimeOut] = useState(setTimeout(()=>{},0))
     const [isClick, setIsClick] = useState(true)
 
     function handleTouchStart() {
-        touchTimeOut = setTimeout(() => {
+        clearTimeout(touchTimeOut)
+        setTouchTimeOut(setTimeout(() => {
             setIsClick(false)
             if (props.onLongPress) props.onLongPress()
-        }, 500)
+        }, 500))
     }
 
     function handleTouchEnd() {

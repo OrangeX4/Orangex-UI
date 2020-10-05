@@ -66,6 +66,23 @@ function App() {
 
   // Footer
   const [isActive, setIsActive] = useState(false)
+  const [handleFunc, setHandleFunc] = useState(handleCopy)
+
+  function onCopy() {
+
+  }
+
+  function onMove() {
+
+  }
+
+  function handleCopy() {
+
+  }
+
+  function handleMove() {
+
+  }
 
 
   // Render
@@ -79,10 +96,10 @@ function App() {
         {state.files.map((file) => <Item onLongPress={() => handleSelectedFileChange(file.name)} isSelect={selectedFiles[file.name]} name={file.name} description={file.showSize + ' | ' + file.lastTime} icon='file' key={file.name} />)}
       </div>
       {isActive ? <FooterActive /> : <Footer
-      onCopy={()=>alert('copy')}
-      onMove={()=>alert('move')}
-      onRename={(newName) => alert(`rename: ${newName}`)}
-      onDelete={() => alert('delete')}
+        onCopy={() => alert('copy')}
+        onMove={() => alert('move')}
+        onRename={(newName) => alert(`rename: ${newName}`)}
+        onDelete={() => alert('delete')}
       />}
     </div>
   );
