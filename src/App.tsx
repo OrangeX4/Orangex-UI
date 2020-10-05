@@ -66,22 +66,37 @@ function App() {
 
   // Footer
   const [isActive, setIsActive] = useState(false)
-  const [handleFunc, setHandleFunc] = useState(handleCopy)
+  const [currentFunc, setHandleFunc] = useState('copy')
 
   function onCopy() {
-
+    setHandleFunc('copy')
+    setIsActive(true)
   }
 
   function onMove() {
-
+    setHandleFunc('move')
+    setIsActive(true)
   }
 
   function handleCopy() {
-
+    alert('copy')
   }
 
   function handleMove() {
+    alert('move')
+  }
 
+  function handleOk() {
+    switch(currentFunc){
+      case 'copy':
+        handleCopy()
+        break
+      case 'move':
+        handleMove()
+        break
+      default:
+    }
+    setIsActive(false)
   }
 
 
@@ -95,9 +110,9 @@ function App() {
         {state.dirs.map((dir) => <Item onLongPress={() => handleSelectedDirChange(dir.name)} isSelect={selectedDirs[dir.name]} onClick={() => { forward(state.current + '/' + dir.name) }} name={dir.name} description={dir.items + ' Items'} icon='folder' key={dir.name} />)}
         {state.files.map((file) => <Item onLongPress={() => handleSelectedFileChange(file.name)} isSelect={selectedFiles[file.name]} name={file.name} description={file.showSize + ' | ' + file.lastTime} icon='file' key={file.name} />)}
       </div>
-      {isActive ? <FooterActive /> : <Footer
-        onCopy={() => alert('copy')}
-        onMove={() => alert('move')}
+      {isActive ? <FooterActive onCancle={() => setIsActive(false)} onOk={handleOk} /> : <Footer
+        onCopy={onCopy}
+        onMove={onMove}
         onRename={(newName) => alert(`rename: ${newName}`)}
         onDelete={() => alert('delete')}
       />}

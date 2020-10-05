@@ -5,16 +5,20 @@ import '../css/Footer.css'
 import okImg from '../assets/ok.png'
 import cancleImg from '../assets/cancle.png'
 
+interface Props {
+    onCancle: () => void
+    onOk: () => void
+}
 
-function FooterActive() {
+function FooterActive(props: Props) {
 
     return (
-        <div className='footer'>
+        <div onClick={props.onCancle} className='footer'>
             <div className='footer-button'>
                 <img className='footer-img' src={cancleImg} alt='cancle' />
                 <span className='footer-text'>Cancle</span>
             </div>
-            <div className='footer-button'>
+            <div onClick={props.onOk} className='footer-button'>
                 <img className='footer-img' src={okImg} alt='ok' />
                 <span className='footer-text'>Ok</span>
             </div>
