@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
 import FooterMain from './FooterMain'
-import FooterActive from './FooterActive'
+import FooterConfirm from './FooterConfirm'
 
 interface SelectedItems {
     [ItemName: string]: boolean
@@ -16,8 +16,26 @@ interface Props {
 
 function Footer(props: Props) {
 
-    const [isActive, setIsActive] = useState(false)
-    const [currentFunc, setHandleFunc] = useState('copy')
+    // State
+    const [state, setState] = useState('main' as 'main'|'confirm')
+    function getStateView() {
+        switch(state) {
+            case 'main':
+                return (<FooterMain
+                    onCopy={onCopy}
+                    onMove={onMove}
+                    onRename={(newName) => alert(`rename: ${newName}`)}
+                    onDelete={() => alert('delete')}
+                />)
+                break
+            case 'confirm':
+                return (<FooterConfirm onCancle={() => setState('main')} onOk={handleOk} />)
+                break
+        }
+    }
+
+    // Copy and Move
+    const [currentFunc, setHandleFunc] = useState('copy' as 'copy'|'move')
     const [savedDirs, setSavedDirs] = useState(getArray(props.selectedDirs))
     const [savedFiles, setSavedFiles] = useState(getArray(props.selectedFiles))
 
@@ -33,14 +51,14 @@ function Footer(props: Props) {
         setSavedDirs(getArray(props.selectedDirs))
         setSavedFiles(getArray(props.selectedFiles))
         setHandleFunc('copy')
-        setIsActive(true)
+        setState('confirm')
     }
 
     function onMove() {
         setSavedDirs(getArray(props.selectedDirs))
         setSavedFiles(getArray(props.selectedFiles))
         setHandleFunc('move')
-        setIsActive(true)
+        setState('confirm')
     }
 
     function handleCopy() {
@@ -61,20 +79,11 @@ function Footer(props: Props) {
                 break
             default:
         }
-        setIsActive(false)
+        setState('main')
     }
 
-
     // Render
-    return (<div>
-        {isActive ? <FooterActive onCancle={() => setIsActive(false)} onOk={handleOk} /> : <FooterMain
-            onCopy={onCopy}
-            onMove={onMove}
-            onRename={(newName) => alert(`rename: ${newName}`)}
-            onDelete={() => alert('delete')}
-        />}
-    </div>
-    )
+    return getStateView()
 }
 
 export default Footer

@@ -10,7 +10,7 @@ interface Props {
     onOk: () => void
 }
 
-function FooterActive(props: Props) {
+function FooterConfirm(props: Props) {
 
     return (
         <div onClick={props.onCancle} className='footer'>
@@ -26,4 +26,4 @@ function FooterActive(props: Props) {
     )
 }
 
-export default FooterActive
+export default FooterConfirm
