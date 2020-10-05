@@ -17,7 +17,7 @@ interface Props {
     onDelete: () => void
 }
 
-function Footer(props: Props) {
+function FooterMain(props: Props) {
 
     return (
         <div className='footer'>
@@ -36,4 +36,4 @@ function Footer(props: Props) {
     )
 }
 
-export default Footer
+export default FooterMain
