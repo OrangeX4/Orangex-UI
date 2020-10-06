@@ -57,7 +57,7 @@ function App() {
         get(`newfile?name=${state.current}/${filename}`, (response) => {
             forward(state.current)
             const res = JSON.parse(response)
-            if(res.success) message.success('Success to create new file.')
+            if (res.success) message.success('Success to create new file.')
             else message.warn('Fail to create new file.')
         })
     }
@@ -66,11 +66,20 @@ function App() {
         get(`newdir?name=${state.current}/${foldername}`, (response) => {
             forward(state.current)
             const res = JSON.parse(response)
-            if(res.success) message.success('Success to create new folder.')
+            if (res.success) message.success('Success to create new folder.')
             else message.warn('Fail to create new folder.')
         })
     }
-    
+    // rename
+    function handleRename(oldName: string, newName: string) {
+        get(`rename?oldname=${state.current}/${oldName}&newname=${state.current}/${newName}`, (response) => {
+            forward(state.current)
+            const res = JSON.parse(response)
+            if (res.success) message.success('Success to rename.')
+            else message.warn('Fail to rename.')
+        })
+    }
+
 
     // Current selected items
     interface SelectedItems {
@@ -170,7 +179,7 @@ function App() {
             </div>
             <Footer
                 onDelete={(dirs, files) => alert(`delete: ${dirs} ${files}`)}
-                onRename={(old, newn) => { alert(`old:${old} new:${newn}`) }}
+                onRename={handleRename}
                 onTerminal={() => alert('terminal')}
                 onSelectall={handleSelectall}
                 onUnselect={handleUnselect}
