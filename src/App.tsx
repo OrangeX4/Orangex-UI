@@ -94,12 +94,30 @@ function App() {
     }
     // delete
     function handleDelete(dirs: string[], files: string[]) {
-        post('delete', JSON.stringify({current: state.current, dirs: dirs, files: files}), (response) => {
+        post('delete', JSON.stringify({ current: state.current, dirs: dirs, files: files }), (response) => {
             forward(state.current)
             const res = JSON.parse(response)
             if (res.success) message.success('Success to delete.')
             else message.warn('Fail to delete.')
         })
+    }
+    // copy
+    function handleCopy(oldDir: string, dirs: string[], files: string[]) {
+
+    }
+    // move
+    function handleMove(oldDir: string, dirs: string[], files: string[]) {
+        if (state.current === oldDir) {
+            message.warn('New dir be supposed to be different from the old dir.')
+            return
+        } else {
+            post('move', JSON.stringify({ oldDir: oldDir, newDir: state.current, dirs: dirs, files: files }), (response) => {
+                forward(state.current)
+                const res = JSON.parse(response)
+                if (res.success) message.success('Success to move.')
+                else message.warn('Fail to move.')
+            })
+        }
     }
 
 
@@ -207,8 +225,9 @@ function App() {
                 onUnselect={handleUnselect}
                 onNewFolder={handleNewFolder}
                 onNewFile={handleNewFile}
-                onCopy={(dirs, files) => alert(`copy: ${dirs} ${files}`)}
-                onMove={(dirs, files) => alert(`move: ${dirs} ${files}`)}
+                current={state.current}
+                onCopy={handleCopy}
+                onMove={handleMove}
                 selectedDirs={selectedDirs}
                 selectedFiles={selectedFiles}
             ></Footer>

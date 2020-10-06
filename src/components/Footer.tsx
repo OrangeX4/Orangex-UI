@@ -12,10 +12,11 @@ interface SelectedItems {
 }
 
 interface Props {
+    current: string
     selectedDirs: SelectedItems
     selectedFiles: SelectedItems
-    onCopy: (dirs: string[], files: string[]) => void
-    onMove: (dirs: string[], files: string[]) => void
+    onCopy: (oldDir: string, dirs: string[], files: string[]) => void
+    onMove: (oldDir: string, dirs: string[], files: string[]) => void
     onRename: (oldName: string, newName: string) => void
     onDelete: (dirs: string[], files: string[]) => void
     onUnselect: () => void
@@ -108,6 +109,7 @@ function Footer(props: Props) {
 
     // Copy and Move
     const [currentFunc, setHandleFunc] = useState('copy' as 'copy' | 'move')
+    const [oldDir, setOldDir] = useState('.')
     const [savedDirs, setSavedDirs] = useState(getArray(props.selectedDirs))
     const [savedFiles, setSavedFiles] = useState(getArray(props.selectedFiles))
 
@@ -120,6 +122,7 @@ function Footer(props: Props) {
     }
 
     function onCopy() {
+        setOldDir(props.current)
         setSavedDirs(getArray(props.selectedDirs))
         setSavedFiles(getArray(props.selectedFiles))
         setHandleFunc('copy')
@@ -127,6 +130,7 @@ function Footer(props: Props) {
     }
 
     function onMove() {
+        setOldDir(props.current)
         setSavedDirs(getArray(props.selectedDirs))
         setSavedFiles(getArray(props.selectedFiles))
         setHandleFunc('move')
@@ -134,11 +138,11 @@ function Footer(props: Props) {
     }
 
     function handleCopy() {
-        props.onCopy(savedDirs, savedFiles)
+        props.onCopy(oldDir, savedDirs, savedFiles)
     }
 
     function handleMove() {
-        props.onMove(savedDirs, savedFiles)
+        props.onMove(oldDir, savedDirs, savedFiles)
     }
 
     function handleCancle() {
