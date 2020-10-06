@@ -103,12 +103,22 @@ function App() {
     }
     // copy
     function handleCopy(oldDir: string, dirs: string[], files: string[]) {
-
+        if (state.current === oldDir) {
+            message.warn('New directory be supposed to be different from the old directory.')
+            return
+        } else {
+            post('copy', JSON.stringify({ oldDir: oldDir, newDir: state.current, dirs: dirs, files: files }), (response) => {
+                forward(state.current)
+                const res = JSON.parse(response)
+                if (res.success) message.success('Success to copy.')
+                else message.warn('Fail to copy.')
+            })
+        }
     }
     // move
     function handleMove(oldDir: string, dirs: string[], files: string[]) {
         if (state.current === oldDir) {
-            message.warn('New dir be supposed to be different from the old dir.')
+            message.warn('New directory be supposed to be different from the old directory.')
             return
         } else {
             post('move', JSON.stringify({ oldDir: oldDir, newDir: state.current, dirs: dirs, files: files }), (response) => {
