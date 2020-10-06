@@ -21,6 +21,8 @@ interface Props {
     onUnselect: () => void
     onTerminal: () => void
     onSelectall: () => void
+    onNewFolder: (name: string) => void
+    onNewFile: (name: string) => void
 }
 
 function Footer(props: Props) {
@@ -33,6 +35,8 @@ function Footer(props: Props) {
                 return (<FooterMain
                     onTerminal={props.onTerminal}
                     onSelectall={props.onSelectall}
+                    onNewFolder={props.onNewFolder}
+                    onNewFile={props.onNewFile}
                 ></FooterMain>)
             case 'selected':
                 return (<FooterSelected
@@ -93,7 +97,7 @@ function Footer(props: Props) {
             message.warn('Please select one item at least!')
             return
         } else if (oldName === newName) {
-            message.warn('New name should be different from old name!')
+            message.warn('New name should be different from the old name!')
             return
         } else {
             props.onRename(oldName, newName)

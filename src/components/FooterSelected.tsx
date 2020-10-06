@@ -28,11 +28,11 @@ function FooterSelected(props: Props) {
                 <img className='footer-img' src={moveImg} alt='move' />
                 <span className='footer-text'>Move</span>
             </div>
+            <DeleteButton onDelete={props.onDelete} />
             <div onClick={props.onUnselect} className='footer-button'>
                 <img className='footer-img' src={cancleImg} alt='unselect' />
                 <span className='footer-text'>Unselect</span>
             </div>
-            <DeleteButton onDelete={props.onDelete} />
         </div>
     )
 }

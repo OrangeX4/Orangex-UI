@@ -95,6 +95,8 @@ function App() {
         onTerminal={()=>alert('terminal')}
         onSelectall={handleSelectall}
         onUnselect={handleUnselect}
+        onNewFolder={(name) => alert('New Folder: ' + name)}
+        onNewFile={(name) => alert('New File: ' + name)}
         onCopy={(dirs, files) => alert(`copy: ${dirs} ${files}`)}
         onMove={(dirs, files) => alert(`move: ${dirs} ${files}`)}
         selectedDirs={selectedDirs}

@@ -44,7 +44,7 @@ function InputButton(props: Props) {
                 visible={isDisplay}
                 height={150}
                 key='drawer'>
-                <Row><Col span={24}><Input value={inputValue} onChange={handleChange} placeholder={props.placeholder ? props.placeholder : 'Please enter name'} /></Col></Row>
+                <Row><Col span={24}><Input value={inputValue} onChange={handleChange} placeholder={props.placeholder ? props.placeholder : 'Please enter new name'} /></Col></Row>
                 <br />
                 <Row gutter={16}>
                     <Col span={12}><Button onClick={() => setIsDisplay(false)} shape="round" size='large' block={true}>Cancle</Button></Col>

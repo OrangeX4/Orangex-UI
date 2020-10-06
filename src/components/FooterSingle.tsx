@@ -30,8 +30,8 @@ function FooterSingle(props: Props) {
                 <img className='footer-img' src={moveImg} alt='move' />
                 <span className='footer-text'>Move</span>
             </div>
-            <InputButton name='Rename' icon={renameImg} default={props.currentName} onConfirm={(newName) => { props.onRename(newName) }} />
             <DeleteButton onDelete={props.onDelete} />
+            <InputButton name='Rename' icon={renameImg} default={props.currentName} onConfirm={(newName) => { props.onRename(newName) }} />
         </div>
     )
 }
