@@ -8,14 +8,18 @@ import './css/App.css'
 
 import folderImg from './assets/folder.png'
 import fileImg from './assets/file.png'
+import fileDocImg from './assets/file_doc.png'
+import fileImageImg from './assets/file_image.png'
+import fileVideoImg from './assets/file_video.png'
 
-import example from './json/example.json'
+import exampleJson from './json/example.json'
+import suffixJson from './json/suffix.json'
 
 
 function App() {
 
   // Main data stream
-  const [state, setState] = useState(example)
+  const [state, setState] = useState(exampleJson)
 
   function forward(dirname: string) {
     // const url = 'http://127.0.0.1:1984/dir?dir=' + dirname
@@ -82,10 +86,38 @@ function App() {
     setSelectedFiles(newSelectedFiles)
   }
 
-  // // file type
-  // function getFileType(name: string): 'file'|'document'|'video'|'image' {
-    
-  // }
+  // file type
+  function getFileType(name: string) {
+
+    let type = 'file' as 'file' | 'document' | 'video' | 'image'
+    if (name.lastIndexOf('.') === -1) {
+      return type
+    }
+    const suffix = name.substring(name.lastIndexOf('.') + 1).toLowerCase()
+    suffixJson.document.forEach((value) => {
+      if (suffix === value) type = 'document'
+    })
+    suffixJson.image.forEach((value) => {
+      if (suffix === value) type = 'image'
+    })
+    suffixJson.video.forEach((value) => {
+      if (suffix === value) type = 'video'
+    })
+    return type
+  }
+  function getFileIcon(name: string) {
+
+    switch(getFileType(name)) {
+      case 'document':
+        return fileDocImg
+      case 'image':
+        return fileImageImg
+      case 'video':
+        return fileVideoImg
+      default:
+        return fileImg
+    }
+  }
 
   // Render
   return (
@@ -107,7 +139,7 @@ function App() {
           isSelect={selectedFiles[file.name]}
           name={file.name}
           description={file.showSize + ' | ' + file.lastTime}
-          icon={fileImg} key={file.name}
+          icon={getFileIcon(file.name)} key={file.name}
         />)}
       </div>
       <Footer

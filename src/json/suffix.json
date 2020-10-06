@@ -1,0 +1,33 @@
+{
+    "document": [
+        "txt",
+        "html",
+        "css",
+        "js",
+        "md",
+        "json",
+        "ts",
+        "tsx",
+        "jsx",
+        "vue",
+        "c",
+        "h",
+        "cpp",
+        "java",
+        "py",
+        "lock"
+    ],
+    "image": [
+        "png",
+        "jpg",
+        "jpeg",
+        "bmp",
+        "gif",
+        "ico",
+        "icon"
+    ],
+    "video": [
+        "mp4",
+        "avi"
+    ]
+}
