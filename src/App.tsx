@@ -15,8 +15,8 @@ function App() {
   const [state, setState] = useState(example)
 
   function forward(dirname: string) {
-    const url = 'http://127.0.0.1:1984/dir?dir=' + dirname
-    // const url = 'http://192.168.137.1:1984/dir?dir=' + dirname
+    // const url = 'http://127.0.0.1:1984/dir?dir=' + dirname
+    const url = 'http://192.168.137.1:1984/dir?dir=' + dirname
 
     const xhr = new XMLHttpRequest()
     xhr.open('GET', url, true)

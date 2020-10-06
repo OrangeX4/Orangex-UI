@@ -32,9 +32,8 @@ function Footer(props: Props) {
                     onCopy={onCopy}
                     onMove={onMove}
                     onUnselect={props.onUnselect}
-                    onDelete={props.onDelete}
+                    onDelete={handleDelete}
                 />)
-                break
             case 'single':
                 return (<FooterSingle
                     onCopy={onCopy}
@@ -42,35 +41,40 @@ function Footer(props: Props) {
                     onRename={handleRename}
                     onDelete={props.onDelete}
                 />)
-                break
             case 'confirm':
                 return (<FooterConfirm onCancle={handleCancle} onOk={handleOk} />)
-                break
         }
     }
     useEffect(() => {
         const count = getArray(props.selectedDirs).length + getArray(props.selectedFiles).length
         switch (state) {
             case 'main':
-                if (count == 1) setState('single')
+                if (count === 1) setState('single')
                 else if (count > 1) setState('selected')
                 break
             case 'single':
-                if (count == 0) setState('main')
+                if (count === 0) setState('main')
                 else if (count > 1) setState('selected')
                 break
             case 'selected':
-                if (count == 0) setState('main')
-                else if (count == 1) setState('single')
+                if (count === 0) setState('main')
+                else if (count === 1) setState('single')
                 break
             default:
         }
-    }, [props.selectedDirs, props.selectedFiles])
+    }, [props.selectedDirs, props.selectedFiles, state])
+
+    // Delete
+    function handleDelete() {
+        props.onDelete()
+        props.onUnselect()
+    }
 
     // Rename
     function handleRename(newName: string) {
         if (getArray(props.selectedDirs).length > 0) props.onRename(getArray(props.selectedDirs)[0], newName)
         else if (getArray(props.selectedFiles).length > 0) props.onRename(getArray(props.selectedFiles)[0], newName)
+        props.onUnselect()
     }
 
     // Copy and Move
