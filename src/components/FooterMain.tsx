@@ -7,7 +7,6 @@ import { message } from 'antd'
 import '../css/Footer.css'
 
 import terminalImg from '../assets/terminal.png'
-import newfolderImg from '../assets/newfolder.png'
 import newImg from '../assets/new.png'
 import newFolderImg from '../assets/newfolder.png'
 import selectallImg from '../assets/ok.png'

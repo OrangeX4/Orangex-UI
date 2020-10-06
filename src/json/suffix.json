@@ -15,7 +15,8 @@
         "cpp",
         "java",
         "py",
-        "lock"
+        "lock",
+        "gitignore"
     ],
     "image": [
         "png",

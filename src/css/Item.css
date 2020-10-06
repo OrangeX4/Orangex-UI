@@ -13,16 +13,27 @@
     -ms-user-select: none;
     /*IE10*/
     user-select: none;
-}
 
-.item-text {
-    
-    padding-top: 6px;
     overflow: hidden;
     /*文本不会换行*/
     white-space: nowrap;
     /*当文本溢出包含元素时，以省略号表示超出的文本*/
     text-overflow: ellipsis;
+}
+
+.item-icon {
+    float: left;
+    padding-left: 20px;
+    width: 50px;
+    height: 50px;
+
+    box-sizing: content-box;
+}
+
+.item-text {
+    
+    padding-top: 6px;
+
     float: left;
     /* display:inline-bolck; */
 }
@@ -34,6 +45,7 @@
     padding: 10px;
     height: 15px;
 
+
 }
 
 .item-description {
@@ -42,15 +54,6 @@
     padding-left: 10px;
     height: 12px;
 
-}
-
-.item-icon {
-    float: left;
-    padding-left: 20px;
-    width: 50px;
-    height: 50px;
-
-    box-sizing: content-box;
 }
 
 .item-select {
