@@ -4,19 +4,22 @@ import { Drawer, Button, Input, Row, Col } from 'antd'
 
 import '../css/Footer.css'
 
-import renameImg from '../assets/rename.png'
+
 
 interface Props {
-    onRename: (newName: string) => void
-    currentName?: string
+    onConfirm: (text: string) => void
+    name: string
+    icon: string
+    default?: string
+    placeholder?: string
 }
 
-function RenameButton(props: Props) {
+function InputButton(props: Props) {
 
     const [isDisplay, setIsDisplay] = useState(false)
     function handleRename(newName: string) {
         setIsDisplay(false)
-        props.onRename(newName)
+        props.onConfirm(newName)
     }
 
     const [inputValue, setInputValue] = useState('')
@@ -25,15 +28,15 @@ function RenameButton(props: Props) {
     }
 
     function handleClick() {
-        setInputValue(props.currentName ? props.currentName : '')
+        setInputValue(props.default ? props.default : '')
         setIsDisplay(true)
     }
 
     return (
         <div className='footer-button'>
             <div onClick={handleClick}>
-                <img className='footer-img' src={renameImg} alt='rename' />
-                <span className='footer-text'>Rename</span>
+                <img className='footer-img' src={props.icon} alt={props.name} />
+                <span className='footer-text'>{props.name}</span>
             </div>
             <Drawer placement='bottom'
                 onClose={() => setIsDisplay(false)}
@@ -41,7 +44,7 @@ function RenameButton(props: Props) {
                 visible={isDisplay}
                 height={150}
                 key='drawer'>
-                <Row><Col span={24}><Input value={inputValue} onChange={handleChange} placeholder='Please enter new name' /></Col></Row>
+                <Row><Col span={24}><Input value={inputValue} onChange={handleChange} placeholder={props.placeholder ? props.placeholder : 'Please enter name'} /></Col></Row>
                 <br />
                 <Row gutter={16}>
                     <Col span={12}><Button onClick={() => setIsDisplay(false)} shape="round" size='large' block={true}>Cancle</Button></Col>
@@ -53,4 +56,4 @@ function RenameButton(props: Props) {
     )
 }
 
-export default RenameButton
+export default InputButton

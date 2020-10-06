@@ -1,12 +1,13 @@
 import React from 'react'
 
 import DeleteButton from './DeleteButton'
-import RenameButton from './RenameButton'
+import InputButton from './InputButton'
 
 import '../css/Footer.css'
 
 import copyImg from '../assets/copy.png'
 import moveImg from '../assets/move.png'
+import renameImg from '../assets/rename.png'
 
 
 interface Props {
@@ -29,10 +30,8 @@ function FooterSingle(props: Props) {
                 <img className='footer-img' src={moveImg} alt='move' />
                 <span className='footer-text'>Move</span>
             </div>
-            <RenameButton currentName={props.currentName} onRename={(newName) => { props.onRename(newName) }} />
+            <InputButton name='Rename' icon={renameImg} default={props.currentName} onConfirm={(newName) => { props.onRename(newName) }} />
             <DeleteButton onDelete={props.onDelete} />
-
-
         </div>
     )
 }
