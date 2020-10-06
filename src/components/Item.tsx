@@ -52,8 +52,8 @@ function Item(props: Props) {
                     <br />
                     <span className="item-description">{props.description}</span>
                 </div>
-                {props.isSelect ? <img className="item-select" src={selectPng} alt="select" /> : null}
             </div>
+            {props.isSelect ? <img className="item-select" src={selectPng} alt="select" /> : null}
         </div>
     )
 }

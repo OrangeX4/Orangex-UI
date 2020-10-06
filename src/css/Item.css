@@ -1,6 +1,9 @@
 .item-root {
-    vertical-align: middle;
     height: 70px;
+
+    display: inline-flex;
+
+    width: 85%;
 
     -webkit-touch-callout: none;
     /*系统默认菜单被禁用*/
@@ -22,7 +25,6 @@
 }
 
 .item-icon {
-    float: left;
     padding-left: 20px;
     width: 50px;
     height: 50px;
@@ -31,11 +33,7 @@
 }
 
 .item-text {
-    
     padding-top: 6px;
-
-    float: left;
-    /* display:inline-bolck; */
 }
 
 .item-name {
@@ -44,8 +42,6 @@
     padding-left: 10px;
     padding: 10px;
     height: 15px;
-
-
 }
 
 .item-description {
@@ -53,7 +49,6 @@
     color: #A9A9A9;
     padding-left: 10px;
     height: 12px;
-
 }
 
 .item-select {
