@@ -9,14 +9,15 @@ import selectallImg from '../assets/ok.png'
 
 
 interface Props {
-
+    onTerminal: () => void
+    onSelectall: () => void
 }
 
 function FooterMain(props: Props) {
 
     return (
         <div className='footer'>
-            <div className='footer-button'>
+            <div onClick={props.onTerminal} className='footer-button'>
                 <img className='footer-img' src={terminalImg} alt='terminal' />
                 <span className='footer-text'>Terminal</span>
             </div>
@@ -28,7 +29,7 @@ function FooterMain(props: Props) {
                 <img className='footer-img' src={newImg} alt='new' />
                 <span className='footer-text'>New File</span>
             </div>
-            <div className='footer-button'>
+            <div onClick={props.onSelectall} className='footer-button'>
                 <img className='footer-img' src={selectallImg} alt='selectall' />
                 <span className='footer-text'>Select All</span>
             </div>

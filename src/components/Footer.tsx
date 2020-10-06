@@ -19,6 +19,8 @@ interface Props {
     onRename: (oldName: string, newName: string) => void
     onDelete: (dirs: string[], files: string[]) => void
     onUnselect: () => void
+    onTerminal: () => void
+    onSelectall: () => void
 }
 
 function Footer(props: Props) {
@@ -28,7 +30,10 @@ function Footer(props: Props) {
     function getStateView() {
         switch (state) {
             case 'main':
-                return (<FooterMain></FooterMain>)
+                return (<FooterMain
+                    onTerminal={props.onTerminal}
+                    onSelectall={props.onSelectall}
+                ></FooterMain>)
             case 'selected':
                 return (<FooterSelected
                     onCopy={onCopy}

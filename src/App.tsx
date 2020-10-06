@@ -59,9 +59,24 @@ function App() {
     setSelectedFiles(newSelectedFiles)
   }
 
+  
+  // Handle event
   function handleUnselect() {
     setSelectedDirs({})
     setSelectedFiles({})
+  }
+  function handleSelectall() {
+    const newSelectedDirs = {} as SelectedItems
+    state.dirs.forEach((dir) => {
+      newSelectedDirs[dir.name] = true
+    })
+    setSelectedDirs(newSelectedDirs)
+
+    const newSelectedFiles = {} as SelectedItems
+    state.files.forEach((file) => {
+      newSelectedFiles[file.name] = true
+    })
+    setSelectedFiles(newSelectedFiles)
   }
 
   // Render
@@ -74,7 +89,17 @@ function App() {
         {state.dirs.map((dir) => <Item onLongPress={() => handleSelectedDirChange(dir.name)} isSelect={selectedDirs[dir.name]} onClick={() => { forward(state.current + '/' + dir.name) }} name={dir.name} description={dir.items + ' Items'} icon='folder' key={dir.name} />)}
         {state.files.map((file) => <Item onLongPress={() => handleSelectedFileChange(file.name)} isSelect={selectedFiles[file.name]} name={file.name} description={file.showSize + ' | ' + file.lastTime} icon='file' key={file.name} />)}
       </div>
-      <Footer onDelete={(dirs, files) => alert(`delete: ${dirs} ${files}`)} onRename={(old, newn) => { alert(`old:${old} new:${newn}`) }} onUnselect={handleUnselect} onCopy={(dirs, files) => alert(`copy: ${dirs} ${files}`)} onMove={(dirs, files) => alert(`move: ${dirs} ${files}`)} selectedDirs={selectedDirs} selectedFiles={selectedFiles}></Footer>
+      <Footer
+        onDelete={(dirs, files) => alert(`delete: ${dirs} ${files}`)}
+        onRename={(old, newn) => { alert(`old:${old} new:${newn}`) }}
+        onTerminal={()=>alert('terminal')}
+        onSelectall={handleSelectall}
+        onUnselect={handleUnselect}
+        onCopy={(dirs, files) => alert(`copy: ${dirs} ${files}`)}
+        onMove={(dirs, files) => alert(`move: ${dirs} ${files}`)}
+        selectedDirs={selectedDirs}
+        selectedFiles={selectedFiles}
+      ></Footer>
     </div>
   )
 }
