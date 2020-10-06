@@ -29,7 +29,20 @@ function App() {
     function get(suffix: string, callback: (res: string) => void) {
         const xhr = new XMLHttpRequest()
         xhr.open('GET', url + suffix, true)
+        xhr.setRequestHeader('content-type', 'application/json')
         xhr.send()
+        xhr.onreadystatechange = () => {
+            // alert(xhr.readyState + '  ' + xhr.status)
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                callback(xhr.responseText)
+            }
+        }
+    }
+    function post(suffix: string, content: string, callback: (res: string) => void) {
+        const xhr = new XMLHttpRequest()
+        xhr.open('POST', url + suffix, true)
+        xhr.setRequestHeader('content-type', 'application/json')
+        xhr.send(content)
         xhr.onreadystatechange = () => {
             // alert(xhr.readyState + '  ' + xhr.status)
             if (xhr.readyState === 4 && xhr.status === 200) {
@@ -77,6 +90,15 @@ function App() {
             const res = JSON.parse(response)
             if (res.success) message.success('Success to rename.')
             else message.warn('Fail to rename.')
+        })
+    }
+    // delete
+    function handleDelete(dirs: string[], files: string[]) {
+        post('delete', JSON.stringify({current: state.current, dirs: dirs, files: files}), (response) => {
+            forward(state.current)
+            const res = JSON.parse(response)
+            if (res.success) message.success('Success to delete.')
+            else message.warn('Fail to delete.')
         })
     }
 
@@ -178,7 +200,7 @@ function App() {
                 />)}
             </div>
             <Footer
-                onDelete={(dirs, files) => alert(`delete: ${dirs} ${files}`)}
+                onDelete={handleDelete}
                 onRename={handleRename}
                 onTerminal={() => alert('terminal')}
                 onSelectall={handleSelectall}
