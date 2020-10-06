@@ -5,6 +5,8 @@ import FooterConfirm from './FooterConfirm'
 import FooterSelected from './FooterSelected'
 import FooterSingle from './FooterSingle'
 
+import { message } from 'antd'
+
 interface SelectedItems {
     [ItemName: string]: boolean
 }
@@ -15,7 +17,7 @@ interface Props {
     onCopy: (dirs: string[], files: string[]) => void
     onMove: (dirs: string[], files: string[]) => void
     onRename: (oldName: string, newName: string) => void
-    onDelete: () => void
+    onDelete: (dirs: string[], files: string[]) => void
     onUnselect: () => void
 }
 
@@ -39,7 +41,8 @@ function Footer(props: Props) {
                     onCopy={onCopy}
                     onMove={onMove}
                     onRename={handleRename}
-                    onDelete={props.onDelete}
+                    onDelete={handleDelete}
+                    currentName={getCurrentName()}
                 />)
             case 'confirm':
                 return (<FooterConfirm onCancle={handleCancle} onOk={handleOk} />)
@@ -66,16 +69,33 @@ function Footer(props: Props) {
 
     // Delete
     function handleDelete() {
-        props.onDelete()
+        props.onDelete(getArray(props.selectedDirs), getArray(props.selectedFiles))
         props.onUnselect()
     }
 
     // Rename
-    function handleRename(newName: string) {
-        if (getArray(props.selectedDirs).length > 0) props.onRename(getArray(props.selectedDirs)[0], newName)
-        else if (getArray(props.selectedFiles).length > 0) props.onRename(getArray(props.selectedFiles)[0], newName)
-        props.onUnselect()
+    function getCurrentName() {
+        if (getArray(props.selectedDirs).length > 0) return getArray(props.selectedDirs)[0]
+        else if (getArray(props.selectedFiles).length > 0) return getArray(props.selectedFiles)[0]
+        else return ''
     }
+    function handleRename(newName: string) {
+        const oldName = getCurrentName()
+        if (newName === '') {
+            message.warn('New name cannot be empty!')
+            return
+        } else if (oldName === '') {
+            message.warn('Please select one item at least!')
+            return
+        } else if (oldName === newName) {
+            message.warn('New name should be different from old name!')
+            return
+        } else {
+            props.onRename(oldName, newName)
+            props.onUnselect()
+        }
+    }
+
 
     // Copy and Move
     const [currentFunc, setHandleFunc] = useState('copy' as 'copy' | 'move')
