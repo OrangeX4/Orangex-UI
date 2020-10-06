@@ -2,8 +2,10 @@ import React from 'react'
 
 import '../css/Footer.css'
 
-import copyImg from '../assets/copy.png'
-import moveImg from '../assets/move.png'
+import terminalImg from '../assets/terminal.png'
+import newfolderImg from '../assets/newfolder.png'
+import newImg from '../assets/new.png'
+import selectallImg from '../assets/ok.png'
 
 
 interface Props {
@@ -15,12 +17,20 @@ function FooterMain(props: Props) {
     return (
         <div className='footer'>
             <div className='footer-button'>
-                <img className='footer-img' src={copyImg} alt='copy' />
-                <span className='footer-text'>Copy</span>
+                <img className='footer-img' src={terminalImg} alt='terminal' />
+                <span className='footer-text'>Terminal</span>
             </div>
             <div className='footer-button'>
-                <img className='footer-img' src={moveImg} alt='move' />
-                <span className='footer-text'>Move</span>
+                <img className='footer-img' src={newfolderImg} alt='newfolder' />
+                <span className='footer-text'>New Folder</span>
+            </div>
+            <div className='footer-button'>
+                <img className='footer-img' src={newImg} alt='new' />
+                <span className='footer-text'>New File</span>
+            </div>
+            <div className='footer-button'>
+                <img className='footer-img' src={selectallImg} alt='selectall' />
+                <span className='footer-text'>Select All</span>
             </div>
         </div>
     )
