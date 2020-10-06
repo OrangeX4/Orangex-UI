@@ -1,7 +1,5 @@
 import React, {useState} from 'react'
 import '../css/Item.css'
-import folderImg from '../assets/folder.png'
-import fileImg from '../assets/file.png'
 import selectPng from '../assets/select.png'
 
 interface Props {
@@ -9,23 +7,11 @@ interface Props {
     description: string
     icon: string
     isSelect?: boolean
-    onClick?: () => void | undefined
-    onLongPress?: () => void | undefined
-
+    onClick?: () => void
+    onLongPress?: () => void
 }
 
 function Item(props: Props) {
-
-    function selectImg(name: string): string {
-        switch (name) {
-            case 'folder':
-                return folderImg
-            case 'file':
-                return fileImg
-            default:
-                return fileImg
-        }
-    }
 
     // Click and Press
     const [touchTimeOut, setTouchTimeOut] = useState(setTimeout(()=>{},0))
@@ -60,7 +46,7 @@ function Item(props: Props) {
     return (
         <div onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} onTouchMove={handleTouchMove} onMouseDown={handleTouchStart} onMouseUp={handleTouchEnd}>
             <div className="item-root">
-                <img className="item-icon" src={selectImg(props.icon)} alt={props.icon} />
+                <img className="item-icon" src={props.icon} alt={props.icon} />
                 <div className="item-text">
                     <span className="item-name">{props.name}</span>
                     <br />

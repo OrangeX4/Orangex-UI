@@ -1,0 +1,32 @@
+{
+    "isExist": true,
+    "current": "/Finux",
+    "dirs": [{
+        "name": "folder 1",
+        "items": 0
+    }, {
+        "name": "folder 2",
+        "items": 50
+    }],
+    "files": [{
+        "name": "file",
+        "size": 1274,
+        "showSize": "1 KiB",
+        "lastTime": "9/19/2020"
+    }, {
+        "name": "document.txt",
+        "size": 459,
+        "showSize": "459 Bytes",
+        "lastTime": "9/19/2020"
+    }, {
+        "name": "video.mp4",
+        "size": 459,
+        "showSize": "459 Bytes",
+        "lastTime": "9/19/2020"
+    }, {
+        "name": "image.jpg",
+        "size": 459,
+        "showSize": "459 Bytes",
+        "lastTime": "9/19/2020"
+    }]
+}

@@ -6,7 +6,10 @@ import Footer from './components/Footer'
 
 import './css/App.css'
 
-import example from './test/example.json'
+import folderImg from './assets/folder.png'
+import fileImg from './assets/file.png'
+
+import example from './json/example.json'
 
 
 function App() {
@@ -59,7 +62,7 @@ function App() {
     setSelectedFiles(newSelectedFiles)
   }
 
-  
+
   // Handle event
   function handleUnselect() {
     setSelectedDirs({})
@@ -79,20 +82,38 @@ function App() {
     setSelectedFiles(newSelectedFiles)
   }
 
+  // // file type
+  // function getFileType(name: string): 'file'|'document'|'video'|'image' {
+    
+  // }
+
   // Render
   return (
     <div className='App'>
       <Breadcrumb text={state.current} />
       <div className='main'>
-        <Item onClick={() => { forward(state.current + '/..') }} name='..' description='Return to parent folder' icon='folder' />
-        <Item onClick={() => { forward(state.current + '/.') }} name='.' description='Refresh current folder' icon='folder' />
-        {state.dirs.map((dir) => <Item onLongPress={() => handleSelectedDirChange(dir.name)} isSelect={selectedDirs[dir.name]} onClick={() => { forward(state.current + '/' + dir.name) }} name={dir.name} description={dir.items + ' Items'} icon='folder' key={dir.name} />)}
-        {state.files.map((file) => <Item onLongPress={() => handleSelectedFileChange(file.name)} isSelect={selectedFiles[file.name]} name={file.name} description={file.showSize + ' | ' + file.lastTime} icon='file' key={file.name} />)}
+        <Item onClick={() => { forward(state.current + '/..') }} name='..' description='Return to parent folder' icon={folderImg} />
+        <Item onClick={() => { forward(state.current + '/.') }} name='.' description='Refresh current folder' icon={folderImg} />
+        {state.dirs.map((dir) => <Item
+          onLongPress={() => handleSelectedDirChange(dir.name)}
+          isSelect={selectedDirs[dir.name]}
+          onClick={() => { forward(state.current + '/' + dir.name) }}
+          name={dir.name}
+          description={dir.items + ' Items'}
+          icon={folderImg} key={dir.name}
+        />)}
+        {state.files.map((file) => <Item
+          onLongPress={() => handleSelectedFileChange(file.name)}
+          isSelect={selectedFiles[file.name]}
+          name={file.name}
+          description={file.showSize + ' | ' + file.lastTime}
+          icon={fileImg} key={file.name}
+        />)}
       </div>
       <Footer
         onDelete={(dirs, files) => alert(`delete: ${dirs} ${files}`)}
         onRename={(old, newn) => { alert(`old:${old} new:${newn}`) }}
-        onTerminal={()=>alert('terminal')}
+        onTerminal={() => alert('terminal')}
         onSelectall={handleSelectall}
         onUnselect={handleUnselect}
         onNewFolder={(name) => alert('New Folder: ' + name)}
