@@ -7,7 +7,7 @@ import Tab from './components/Tab'
 
 import { message } from 'antd'
 
-import { UnControlled as CodeMirror } from 'react-codemirror2'
+import { Controlled as CodeMirror } from 'react-codemirror2'
 import 'codemirror/mode/xml/xml'
 import 'codemirror/mode/javascript/javascript'
 
@@ -212,6 +212,10 @@ function App() {
     // Tab
     const [currentTab, setCurrentTab] = useState('file' as 'file' | 'edit' | 'terminal')
 
+    // curren file
+    const [currentFile, setCurrentFile] = useState('Title')
+    const [content, setContent] = useState('')
+
     function getView() {
         switch (currentTab) {
             case 'file':
@@ -256,16 +260,25 @@ function App() {
 
             case 'edit':
                 return (
-                    <CodeMirror
-                        value='<h1>I ♥ react-codemirror2</h1>'
-                        options={{
-                            mode: 'xml',
-                            theme: 'material',
-                            lineNumbers: true
-                        }}
-                        onChange={(editor, data, value) => {
-                        }}
-                    />
+                    <div className='finux-edit-main'>
+                        <div className='finux-edit-title'>{ currentFile }</div>
+                        <div className='finux-edit-codemirror'>
+                            <CodeMirror
+                                value={ content }
+                                options={{
+                                    mode: 'xml',
+                                    theme: 'material',
+                                    lineNumbers: true
+                                }}
+                                onBeforeChange={(editor, data, value) => {
+                                    setContent(value)
+                                  }}
+                                onChange={(editor, data, value) => {
+
+                                }}
+                            />
+                        </div>
+                    </div>
                 )
 
             case 'terminal':
