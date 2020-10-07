@@ -5,17 +5,19 @@
     bottom: 0px;
     box-shadow: 0px 2px 7px gray;
     background-color: white;
-    display: flex;
+    display: flex; 
     align-content: center;
 }
 
 .tab-pane {
-    width: 30%;
+    display: inline-block;
+    width: 34%;
     text-align: center
     /* height: 50px; */
 }
 
 .tab-img {
-    height: 50px;
-    width: 50px;
+    margin-top: 5px;
+    height: 40px;
+    width: 40px;
 }

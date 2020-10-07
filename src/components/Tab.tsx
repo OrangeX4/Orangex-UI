@@ -17,10 +17,10 @@ function Tab() {
                 <img src={finuxActiveImg} className='tab-img' alt='file'></img>
             </div>
             <div className='tab-pane'>
-                <img src={editImg} className='tab-pane' alt='edit'></img>
+                <img src={editImg} className='tab-img' alt='edit'></img>
             </div>
             <div className='tab-pane'>
-                <img src={termImg} className='tab-pane' alt='terminal'></img>
+                <img src={termImg} className='tab-img' alt='terminal'></img>
             </div>
         </div>
     )
