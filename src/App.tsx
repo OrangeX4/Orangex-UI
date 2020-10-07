@@ -7,6 +7,10 @@ import Tab from './components/Tab'
 
 import { message } from 'antd'
 
+import { UnControlled as CodeMirror } from 'react-codemirror2'
+import 'codemirror/mode/xml/xml'
+import 'codemirror/mode/javascript/javascript'
+
 import './css/App.css'
 
 import folderImg from './assets/folder.png'
@@ -252,14 +256,23 @@ function App() {
 
             case 'edit':
                 return (
-                    <div className='app'>Edit</div>
+                    <CodeMirror
+                        value='<h1>I ♥ react-codemirror2</h1>'
+                        options={{
+                            mode: 'xml',
+                            theme: 'material',
+                            lineNumbers: true
+                        }}
+                        onChange={(editor, data, value) => {
+                        }}
+                    />
                 )
-            
+
             case 'terminal':
                 return (
                     <div className='app'>Terminal</div>
                 )
-            
+
             default:
                 return (
                     <div className='app'>404 Not Founded</div>
@@ -270,7 +283,7 @@ function App() {
     // Render
     return (
         <div>
-            { getView() }
+            { getView()}
             <Tab active={currentTab} onChange={(tab) => setCurrentTab(tab)} />
         </div>
     )
