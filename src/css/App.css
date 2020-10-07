@@ -1,9 +1,9 @@
 @import '~antd/dist/antd.css';
 
-.main {
-    margin-bottom: 120px;
+.app {
+    margin-bottom: 50px;
 }
 
-.App {
-    padding-top: 20px;
+.main {
+    margin-bottom: 120px;
 }

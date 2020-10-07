@@ -206,47 +206,71 @@ function App() {
     }
 
     // Tab
-    const [currentTab, setCurrentTab] = useState('file' as 'file'|'edit'|'terminal')
+    const [currentTab, setCurrentTab] = useState('file' as 'file' | 'edit' | 'terminal')
+
+    function getView() {
+        switch (currentTab) {
+            case 'file':
+                return (
+                    <div className='app'>
+                        <Breadcrumb text={state.current} />
+                        <div className='main'>
+                            <Item onClick={() => { forward(state.current + '/..') }} name='..' description='Return to parent folder' icon={folderImg} />
+                            <Item onClick={() => { forward(state.current + '/.') }} name='.' description='Refresh current folder' icon={folderImg} />
+                            {state.dirs.map((dir) => <Item
+                                onLongPress={() => handleSelectedDirChange(dir.name)}
+                                isSelect={selectedDirs[dir.name]}
+                                onClick={() => { forward(state.current + '/' + dir.name) }}
+                                name={dir.name}
+                                description={dir.items + ' Items'}
+                                icon={folderImg} key={dir.name}
+                            />)}
+                            {state.files.map((file) => <Item
+                                onLongPress={() => handleSelectedFileChange(file.name)}
+                                isSelect={selectedFiles[file.name]}
+                                name={file.name}
+                                description={file.showSize + ' | ' + file.lastTime}
+                                icon={getFileIcon(file.name)} key={file.name}
+                            />)}
+                        </div>
+                        <Footer
+                            onDelete={handleDelete}
+                            onRename={handleRename}
+                            onTerminal={() => alert('terminal')}
+                            onSelectall={handleSelectall}
+                            onUnselect={handleUnselect}
+                            onNewFolder={handleNewFolder}
+                            onNewFile={handleNewFile}
+                            current={state.current}
+                            onCopy={handleCopy}
+                            onMove={handleMove}
+                            selectedDirs={selectedDirs}
+                            selectedFiles={selectedFiles}
+                        />
+                    </div>
+                )
+
+            case 'edit':
+                return (
+                    <div className='app'>Edit</div>
+                )
+            
+            case 'terminal':
+                return (
+                    <div className='app'>Terminal</div>
+                )
+            
+            default:
+                return (
+                    <div className='app'>404 Not Founded</div>
+                )
+        }
+    }
 
     // Render
     return (
-        <div className='App'>
-            <div>
-                <Breadcrumb text={state.current} />
-                <div className='main'>
-                    <Item onClick={() => { forward(state.current + '/..') }} name='..' description='Return to parent folder' icon={folderImg} />
-                    <Item onClick={() => { forward(state.current + '/.') }} name='.' description='Refresh current folder' icon={folderImg} />
-                    {state.dirs.map((dir) => <Item
-                        onLongPress={() => handleSelectedDirChange(dir.name)}
-                        isSelect={selectedDirs[dir.name]}
-                        onClick={() => { forward(state.current + '/' + dir.name) }}
-                        name={dir.name}
-                        description={dir.items + ' Items'}
-                        icon={folderImg} key={dir.name}
-                    />)}
-                    {state.files.map((file) => <Item
-                        onLongPress={() => handleSelectedFileChange(file.name)}
-                        isSelect={selectedFiles[file.name]}
-                        name={file.name}
-                        description={file.showSize + ' | ' + file.lastTime}
-                        icon={getFileIcon(file.name)} key={file.name}
-                    />)}
-                </div>
-                <Footer
-                    onDelete={handleDelete}
-                    onRename={handleRename}
-                    onTerminal={() => alert('terminal')}
-                    onSelectall={handleSelectall}
-                    onUnselect={handleUnselect}
-                    onNewFolder={handleNewFolder}
-                    onNewFile={handleNewFile}
-                    current={state.current}
-                    onCopy={handleCopy}
-                    onMove={handleMove}
-                    selectedDirs={selectedDirs}
-                    selectedFiles={selectedFiles}
-                />
-            </div>
+        <div>
+            { getView() }
             <Tab active={currentTab} onChange={(tab) => setCurrentTab(tab)} />
         </div>
     )
