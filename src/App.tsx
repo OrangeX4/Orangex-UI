@@ -216,6 +216,17 @@ function App() {
     const [currentFile, setCurrentFile] = useState('Title')
     const [content, setContent] = useState('')
 
+    function handleFileClick(name: string) {
+        switch(getFileType(name)) {
+            case 'document':
+                setCurrentFile(name)
+                setCurrentTab('edit')
+                break
+            default:
+        }
+
+    }
+
     function getView() {
         switch (currentTab) {
             case 'file':
@@ -234,6 +245,7 @@ function App() {
                                 icon={folderImg} key={dir.name}
                             />)}
                             {state.files.map((file) => <Item
+                                onClick={() => handleFileClick(file.name)}
                                 onLongPress={() => handleSelectedFileChange(file.name)}
                                 isSelect={selectedFiles[file.name]}
                                 name={file.name}
