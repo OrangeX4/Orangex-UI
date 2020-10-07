@@ -205,6 +205,9 @@ function App() {
         }
     }
 
+    // Tab
+    const [currentTab, setCurrentTab] = useState('file' as 'file'|'edit'|'terminal')
+
     // Render
     return (
         <div className='App'>
@@ -244,7 +247,7 @@ function App() {
                     selectedFiles={selectedFiles}
                 />
             </div>
-            <Tab active='file' onChange={(state) => alert(state)} />
+            <Tab active={currentTab} onChange={(tab) => setCurrentTab(tab)} />
         </div>
     )
 }
