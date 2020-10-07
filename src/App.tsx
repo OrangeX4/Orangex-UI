@@ -244,7 +244,7 @@ function App() {
                     selectedFiles={selectedFiles}
                 />
             </div>
-            <Tab />
+            <Tab active='file' onChange={(state) => alert(state)} />
         </div>
     )
 }
