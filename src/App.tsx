@@ -282,7 +282,7 @@ function App() {
 
     // Render
     return (
-        <div>
+        <div id='main'>
             { getView()}
             <Tab active={currentTab} onChange={(tab) => setCurrentTab(tab)} />
         </div>
