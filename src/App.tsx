@@ -46,8 +46,8 @@ function App() {
     // Main data stream
     const [state, setState] = useState(exampleJson)
 
-    // const [url] = useState('http://127.0.0.1:1984/')
-    const [url] = useState('http://192.168.137.1:1984/')
+    const [url] = useState('http://127.0.0.1:1984/')
+    // const [url] = useState('http://192.168.137.1:1984/')
 
     function get(suffix: string, callback: (res: string) => void) {
         const xhr = new XMLHttpRequest()
@@ -352,7 +352,8 @@ function App() {
                                     theme: 'material',
                                     lineNumbers: true,
                                     lineWrapping: false,
-                                    matchBrackets: true
+                                    matchBrackets: true,
+                                    indentUnit: 4
                                 }}
                                 onBeforeChange={(editor, data, value) => {
                                     setContent(value)
