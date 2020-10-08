@@ -4,6 +4,7 @@ import Item from './components/Item'
 import Breadcrumb from './components/BreadCrumb'
 import Footer from './components/Footer'
 import Tab from './components/Tab'
+import ConfirmDrawer from './components/ConfirmDrawer'
 
 import { message } from 'antd'
 
@@ -233,6 +234,9 @@ function App() {
     const [currentFile, setCurrentFile] = useState('Title')
     const [content, setContent] = useState('')
 
+    const [isDrawerDisplay, setIsDrawerDisplay] = useState(false)
+    const [savedFileName, setSavedFileName] = useState('')
+
     function handleFileClick(name: string) {
         switch (getFileType(name)) {
             case 'document':
@@ -247,9 +251,25 @@ function App() {
                 })
                 setCurrentTab('edit')
                 break
+            case 'file':
+                setIsDrawerDisplay(true)
+                setSavedFileName(name)
             default:
         }
 
+    }
+    function handleDrawerConfirm(name: string) {
+        setCurrentFile(name)
+        post('read', JSON.stringify({
+            path: `${state.current}/${name}`
+        }), (response) => {
+            const res = JSON.parse(response)
+            if (res.success) {
+                setContent(res.data)
+            } else message.warn('Fail to open file')
+        })
+        setCurrentTab('edit')
+        setIsDrawerDisplay(false)
     }
     function handleSaveFile() {
         post('write', JSON.stringify({
@@ -301,6 +321,7 @@ function App() {
                                 icon={getFileIcon(file.name)} key={file.name}
                             />)}
                         </div>
+                        <ConfirmDrawer isDisplay={isDrawerDisplay} onConfirm={() => handleDrawerConfirm(savedFileName)} onClose={() => setIsDrawerDisplay(false)}>Are you sure to edit the file?</ConfirmDrawer>
                         <Footer
                             onDelete={handleDelete}
                             onRename={handleRename}
