@@ -224,7 +224,7 @@ function App() {
                     path: `${state.current}/${name}`
                 }), (response) => {
                     const res = JSON.parse(response)
-                    if(res.success) {
+                    if (res.success) {
                         setContent(res.data)
                     } else message.warn('Fail to open file')
                 })
@@ -240,10 +240,22 @@ function App() {
             data: content
         }), (response) => {
             const res = JSON.parse(response)
-            if(res.success) message.success('Success to save the file.') 
+            if (res.success) message.success('Success to save the file.')
             else message.warn('Fail to open the file.')
             forward(state.current)
         })
+    }
+    interface SuffixJson {
+        mime: {
+            [name: string]: string
+        }
+        document: string[]
+        image: string[]
+        video: string[]
+    }
+    function getMIME(name: string) {
+        const suffix = name.substring(name.lastIndexOf('.') + 1).toLowerCase()
+        return (suffixJson as SuffixJson).mime[suffix]
     }
 
     function getView() {
@@ -297,11 +309,11 @@ function App() {
                             <CodeMirror
                                 value={content}
                                 options={{
-                                    mode: 'application/typescript',
+                                    mode: getMIME(currentFile),
                                     theme: 'material',
                                     lineNumbers: true,
                                     lineWrapping: false,
-                                    matchBrackets: true 
+                                    matchBrackets: true
                                 }}
                                 onBeforeChange={(editor, data, value) => {
                                     setContent(value)
