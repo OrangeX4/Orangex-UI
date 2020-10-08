@@ -1,10 +1,21 @@
 {
     "document": [
         "txt",
+        "text",
+        "rb",
+        "rhtml",
+        "xml",
+        "cgi",
+        "rss",
+        "svg",
+        "xhtml",
+        "htm",
         "html",
         "css",
         "js",
         "md",
+        "sh",
+        "bat",
         "json",
         "ts",
         "tsx",
@@ -15,7 +26,16 @@
         "cpp",
         "java",
         "py",
-        "lock",
+        "log",
+        "asp",
+        "jsp",
+        "jspx",
+        "php",
+        "pl",
+        "go",
+        "dart",
+        "jupyter",
+        "yaml",
         "gitignore"
     ],
     "image": [
@@ -25,10 +45,24 @@
         "bmp",
         "gif",
         "ico",
-        "icon"
+        "icon",
+        "webp",
+        "tif"
     ],
     "video": [
         "mp4",
-        "avi"
+        "avi",
+        "wmv",
+        "asf",
+        "asx",
+        "rm",
+        "rmvb",
+        "3gp",
+        "mov",
+        "m4v",
+        "dat",
+        "mkv",
+        "flv",
+        "vob"
     ]
 }

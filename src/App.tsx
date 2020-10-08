@@ -43,7 +43,7 @@ function App() {
             }
         }
     }
-    function post(suffix: string, content: string, callback: (res: string) => void) {
+    function post(suffix: string, content: string, callback: (response: string) => void) {
         const xhr = new XMLHttpRequest()
         xhr.open('POST', url + suffix, true)
         xhr.setRequestHeader('content-type', 'application/json')
@@ -217,14 +217,33 @@ function App() {
     const [content, setContent] = useState('')
 
     function handleFileClick(name: string) {
-        switch(getFileType(name)) {
+        switch (getFileType(name)) {
             case 'document':
                 setCurrentFile(name)
+                post('read', JSON.stringify({
+                    path: `${state.current}/${name}`
+                }), (response) => {
+                    const res = JSON.parse(response)
+                    if(res.success) {
+                        setContent(res.data)
+                    } else message.warn('Fail to open file')
+                })
                 setCurrentTab('edit')
                 break
             default:
         }
 
+    }
+    function handleSaveFile() {
+        post('write', JSON.stringify({
+            path: `${state.current}/${currentFile}`,
+            data: content
+        }), (response) => {
+            const res = JSON.parse(response)
+            if(res.success) message.success('Success to save the file.') 
+            else message.warn('Fail to open the file.')
+            forward(state.current)
+        })
     }
 
     function getView() {
@@ -273,18 +292,20 @@ function App() {
             case 'edit':
                 return (
                     <div className='finux-edit-main'>
-                        <div className='finux-edit-title'>{ currentFile }</div>
+                        <div onClick={handleSaveFile} className='finux-edit-title'>{currentFile}</div>
                         <div className='finux-edit-codemirror'>
                             <CodeMirror
-                                value={ content }
+                                value={content}
                                 options={{
-                                    mode: 'xml',
+                                    mode: 'application/typescript',
                                     theme: 'material',
-                                    lineNumbers: true
+                                    lineNumbers: true,
+                                    lineWrapping: false,
+                                    matchBrackets: true 
                                 }}
                                 onBeforeChange={(editor, data, value) => {
                                     setContent(value)
-                                  }}
+                                }}
                                 onChange={(editor, data, value) => {
 
                                 }}
