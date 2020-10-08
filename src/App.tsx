@@ -254,6 +254,7 @@ function App() {
             case 'file':
                 setIsDrawerDisplay(true)
                 setSavedFileName(name)
+                break
             default:
         }
 
