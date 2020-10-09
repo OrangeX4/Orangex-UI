@@ -200,7 +200,12 @@ function App() {
             case 'edit':
                 return (
                     <div className='orangex-edit-main'>
-                        <div onClick={handleSaveFile} className='orangex-edit-title'>{currentFile}</div>
+                        <div className='orangex-edit-title'>
+                            <span>{currentFile}</span>
+                            <a onClick={handleSaveFile} className='orangex-edit-title-button' href='/#'>Save</a>
+                            <a onClick={() => {cmEditor.focus(); cmEditor.redo()}} className='orangex-edit-title-button' href='/#'>Redo</a>
+                            <a onClick={() => {cmEditor.focus(); cmEditor.undo()}} className='orangex-edit-title-button' href='/#'>Undo</a>
+                        </div>
                         <div className='orangex-edit-codemirror'>
                             <CodeMirror
                                 value={content}

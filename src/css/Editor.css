@@ -30,6 +30,11 @@
 
 }
 
+.orangex-edit-title-button {
+    float: right;
+    margin-right: 20px;
+}
+
 .orangex-edit-keyboard-root {
     position: fixed;
     z-index: 4;
