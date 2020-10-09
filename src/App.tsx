@@ -46,8 +46,8 @@ function App() {
     // Main data stream
     const [state, setState] = useState(exampleJson)
 
-    const [url] = useState('http://127.0.0.1:1984/')
-    // const [url] = useState('http://192.168.137.1:1984/')
+    // const [url] = useState('http://127.0.0.1:1984/')
+    const [url] = useState('http://192.168.137.1:1984/')
 
     function get(suffix: string, callback: (res: string) => void) {
         const xhr = new XMLHttpRequest()
@@ -252,8 +252,8 @@ function App() {
                 setCurrentTab('edit')
                 break
             case 'file':
-                setIsDrawerDisplay(true)
                 setSavedFileName(name)
+                setIsDrawerDisplay(true)
                 break
             default:
         }
@@ -321,8 +321,8 @@ function App() {
                                 description={file.showSize + ' | ' + file.lastTime}
                                 icon={getFileIcon(file.name)} key={file.name}
                             />)}
+                            <ConfirmDrawer isDisplay={isDrawerDisplay} onConfirm={() => handleDrawerConfirm(savedFileName)} onCancle={() => setIsDrawerDisplay(false)}>Are you sure to edit the file?</ConfirmDrawer>
                         </div>
-                        <ConfirmDrawer isDisplay={isDrawerDisplay} onConfirm={() => handleDrawerConfirm(savedFileName)} onClose={() => setIsDrawerDisplay(false)}>Are you sure to edit the file?</ConfirmDrawer>
                         <Footer
                             onDelete={handleDelete}
                             onRename={handleRename}
