@@ -1,0 +1,44 @@
+.terminal {
+    padding-bottom: 20px;
+}
+
+.terminal-out {
+    padding: 15px;
+    background-color: #202020;
+    color: white;
+    width: 100%;
+    height: 200px;
+    font-size: 15px;
+}
+
+.terminal-item {
+    margin: 10px;
+    padding: 10px;
+    width: calc(100% - 20px);
+    box-shadow: 0 0 4px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px;
+}
+
+.terminal-item:hover {
+    box-shadow: 0 0 8px 0 rgba(0,0,0,0.3);
+}
+
+.terminal-text {
+    display: inline-block;
+}
+.terminal-text-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+.terminal-text-content {
+    font-size: 15px;
+}
+
+.terminal-buttoncontainer {
+    float: right;
+}
+.terminal-button {
+    display: block;
+    font-weight: bold;
+}
