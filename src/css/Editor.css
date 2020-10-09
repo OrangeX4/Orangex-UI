@@ -7,15 +7,15 @@
     height: 100%;
 }
 
-.finux-edit-codemirror {
+.orangex-edit-codemirror {
     padding-top: 25px;
     height: 100%;
 }
-.finux-edit-main {
+.orangex-edit-main {
     height: 100%;
 }
 
-.finux-edit-title {
+.orangex-edit-title {
     position: fixed;
     width: 100%;
     height: 25px;
@@ -28,4 +28,22 @@
     border-style: none solid none;
     border-width: 1px;
 
+}
+
+.orangex-edit-keyboard-root {
+    position: fixed;
+    z-index: 4;
+    bottom: 0;
+    padding-bottom: 50px;
+    height: 110px;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    text-align: center;
+    flex-wrap: wrap;
+}
+
+.orangex-edit-keyboard-item {
+    width: 6%;
+    font-size: 20px;
 }

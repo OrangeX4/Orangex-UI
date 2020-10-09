@@ -14,8 +14,9 @@ import './css/App.css'
 import './css/Editor.css'
 
 import exampleJson from './json/example.json'
+import keyboardJson from './json/keyboard.json'
 
-import {setUrl, getMIME, get, post} from './utils/utils'
+import { setUrl, getMIME, get, post } from './utils/utils'
 
 
 function App() {
@@ -23,8 +24,8 @@ function App() {
     // Main path data stream
     const [state, setState] = useState(exampleJson)
 
-    setUrl('http://127.0.0.1:1984/')
-    // setUrl('http://192.168.137.1:1984/')
+    // setUrl('http://127.0.0.1:1984/')
+    setUrl('http://192.168.137.1:1984/')
 
     function forward(dirname: string) {
         get(`dir?name=${dirname}`, (res) => {
@@ -40,7 +41,7 @@ function App() {
     // eslint-disable-next-line
     useEffect(() => { forward('.') }, [])
 
-    
+
     // selected dirs and selected files
     interface SelectedItems {
         [ItemName: string]: boolean
@@ -65,7 +66,7 @@ function App() {
         })
         setSelectedFiles(newSelectedFiles)
     }
-    
+
     // new file
     function handleNewFile(filename: string) {
         get(`newfile?name=${state.current}/${filename}`, (res) => {
@@ -131,6 +132,7 @@ function App() {
     // curren file
     const [currentFile, setCurrentFile] = useState('Title')
     const [content, setContent] = useState('')
+    const [cmEditor, setCmEditor] = useState(null as any)
 
     function openFile(name: string) {
         setCurrentFile(name)
@@ -181,9 +183,9 @@ function App() {
 
             case 'edit':
                 return (
-                    <div className='finux-edit-main'>
-                        <div onClick={handleSaveFile} className='finux-edit-title'>{currentFile}</div>
-                        <div className='finux-edit-codemirror'>
+                    <div className='orangex-edit-main'>
+                        <div onClick={handleSaveFile} className='orangex-edit-title'>{currentFile}</div>
+                        <div className='orangex-edit-codemirror'>
                             <CodeMirror
                                 value={content}
                                 options={{
@@ -194,6 +196,7 @@ function App() {
                                     matchBrackets: true,
                                     indentUnit: 4
                                 }}
+                                editorDidMount={(editor) => setCmEditor(editor)}
                                 onBeforeChange={(editor, data, value) => {
                                     setContent(value)
                                 }}
@@ -201,6 +204,15 @@ function App() {
 
                                 }}
                             />
+                        </div>
+                        <div className='orangex-edit-keyboard-root'>
+                            {(() => {
+                                const keyList = []
+                                for (const key in keyboardJson.data) {
+                                    keyList.push(<span onClick={() => { cmEditor.focus(); cmEditor.replaceSelection((keyboardJson.data as any)[key]) }} className='orangex-edit-keyboard-item'>{key}</span>)
+                                }
+                                return keyList
+                            })()}
                         </div>
                     </div>
                 )
