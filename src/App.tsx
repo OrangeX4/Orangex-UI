@@ -11,6 +11,7 @@ import { Controlled as CodeMirror } from 'react-codemirror2'
 import './utils/codemirror'
 
 import './css/App.css'
+import './css/Editor.css'
 
 import exampleJson from './json/example.json'
 
