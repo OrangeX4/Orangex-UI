@@ -9,25 +9,7 @@ import ConfirmDrawer from './components/ConfirmDrawer'
 import { message } from 'antd'
 
 import { Controlled as CodeMirror } from 'react-codemirror2'
-import 'codemirror/mode/xml/xml'
-import 'codemirror/mode/javascript/javascript'
-import 'codemirror/mode/jsx/jsx'
-import 'codemirror/mode/vue/vue'
-import 'codemirror/mode/ruby/ruby'
-import 'codemirror/mode/lua/lua'
-import 'codemirror/mode/htmlmixed/htmlmixed'
-import 'codemirror/mode/htmlembedded/htmlembedded'
-import 'codemirror/mode/css/css'
-import 'codemirror/mode/yaml/yaml'
-import 'codemirror/mode/markdown/markdown'
-import 'codemirror/mode/shell/shell'
-import 'codemirror/mode/clike/clike'
-import 'codemirror/mode/python/python'
-import 'codemirror/mode/php/php'
-import 'codemirror/mode/perl/perl'
-import 'codemirror/mode/go/go'
-import 'codemirror/mode/dart/dart'
-
+import './utils/codemirror'
 
 import './css/App.css'
 
@@ -40,39 +22,17 @@ import fileVideoImg from './assets/file_video.png'
 import exampleJson from './json/example.json'
 import suffixJson from './json/suffix.json'
 
+import {setUrl, get, post} from './utils/utils'
+
 
 function App() {
 
     // Main data stream
     const [state, setState] = useState(exampleJson)
 
-    const [url] = useState('http://127.0.0.1:1984/')
-    // const [url] = useState('http://192.168.137.1:1984/')
+    setUrl('http://127.0.0.1:1984/')
+    // setUrl('http://192.168.137.1:1984/')
 
-    function get(suffix: string, callback: (res: any) => void) {
-        const xhr = new XMLHttpRequest()
-        xhr.open('GET', url + suffix, true)
-        xhr.setRequestHeader('content-type', 'application/json')
-        xhr.send()
-        xhr.onreadystatechange = () => {
-            // alert(xhr.readyState + '  ' + xhr.status)
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                callback(JSON.parse(xhr.responseText))
-            }
-        }
-    }
-    function post(suffix: string, content: string, callback: (res: any) => void) {
-        const xhr = new XMLHttpRequest()
-        xhr.open('POST', url + suffix, true)
-        xhr.setRequestHeader('content-type', 'application/json')
-        xhr.send(content)
-        xhr.onreadystatechange = () => {
-            // alert(xhr.readyState + '  ' + xhr.status)
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                callback(JSON.parse(xhr.responseText))
-            }
-        }
-    }
     function forward(dirname: string) {
         get(`dir?name=${dirname}`, (res) => {
             if (res.isExist) {
@@ -83,9 +43,9 @@ function App() {
         })
     }
 
+    // Init current folder
     // eslint-disable-next-line
     useEffect(() => { forward('.') }, [])
-
 
     // new file
     function handleNewFile(filename: string) {
@@ -103,7 +63,7 @@ function App() {
             else message.warn('Fail to create new folder.')
         })
     }
-    // rename
+    // rename file
     function handleRename(oldName: string, newName: string) {
         get(`rename?oldname=${state.current}/${oldName}&newname=${state.current}/${newName}`, (res) => {
             forward(state.current)
@@ -111,7 +71,7 @@ function App() {
             else message.warn('Fail to rename.')
         })
     }
-    // delete
+    // delete file
     function handleDelete(dirs: string[], files: string[]) {
         post('delete', JSON.stringify({ current: state.current, dirs: dirs, files: files }), (res) => {
             forward(state.current)
