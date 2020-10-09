@@ -221,6 +221,7 @@ function App() {
                                 }
                                 return keyList
                             })()}
+                            <span onClick={() => { cmEditor.focus(); cmEditor.replaceSelection('\t')}} className='orangex-edit-keyboard-item orangex-edit-keyboard-item-text'>tab</span>
                             <span onClick={handlePaste} className='orangex-edit-keyboard-item orangex-edit-keyboard-item-text'>paste</span>
                         </div>
                     </div>
