@@ -46,10 +46,10 @@ function App() {
     // Main data stream
     const [state, setState] = useState(exampleJson)
 
-    // const [url] = useState('http://127.0.0.1:1984/')
-    const [url] = useState('http://192.168.137.1:1984/')
+    const [url] = useState('http://127.0.0.1:1984/')
+    // const [url] = useState('http://192.168.137.1:1984/')
 
-    function get(suffix: string, callback: (res: string) => void) {
+    function get(suffix: string, callback: (res: any) => void) {
         const xhr = new XMLHttpRequest()
         xhr.open('GET', url + suffix, true)
         xhr.setRequestHeader('content-type', 'application/json')
@@ -57,11 +57,11 @@ function App() {
         xhr.onreadystatechange = () => {
             // alert(xhr.readyState + '  ' + xhr.status)
             if (xhr.readyState === 4 && xhr.status === 200) {
-                callback(xhr.responseText)
+                callback(JSON.parse(xhr.responseText))
             }
         }
     }
-    function post(suffix: string, content: string, callback: (response: string) => void) {
+    function post(suffix: string, content: string, callback: (res: any) => void) {
         const xhr = new XMLHttpRequest()
         xhr.open('POST', url + suffix, true)
         xhr.setRequestHeader('content-type', 'application/json')
@@ -69,13 +69,12 @@ function App() {
         xhr.onreadystatechange = () => {
             // alert(xhr.readyState + '  ' + xhr.status)
             if (xhr.readyState === 4 && xhr.status === 200) {
-                callback(xhr.responseText)
+                callback(JSON.parse(xhr.responseText))
             }
         }
     }
     function forward(dirname: string) {
-        get(`dir?name=${dirname}`, (responseText) => {
-            const res = JSON.parse(responseText)
+        get(`dir?name=${dirname}`, (res) => {
             if (res.isExist) {
                 setState(res)
                 setSelectedDirs({})
@@ -90,36 +89,32 @@ function App() {
 
     // new file
     function handleNewFile(filename: string) {
-        get(`newfile?name=${state.current}/${filename}`, (response) => {
+        get(`newfile?name=${state.current}/${filename}`, (res) => {
             forward(state.current)
-            const res = JSON.parse(response)
             if (res.success) message.success('Success to create new file.')
             else message.warn('Fail to create new file.')
         })
     }
     // new folder
     function handleNewFolder(foldername: string) {
-        get(`newdir?name=${state.current}/${foldername}`, (response) => {
+        get(`newdir?name=${state.current}/${foldername}`, (res) => {
             forward(state.current)
-            const res = JSON.parse(response)
             if (res.success) message.success('Success to create new folder.')
             else message.warn('Fail to create new folder.')
         })
     }
     // rename
     function handleRename(oldName: string, newName: string) {
-        get(`rename?oldname=${state.current}/${oldName}&newname=${state.current}/${newName}`, (response) => {
+        get(`rename?oldname=${state.current}/${oldName}&newname=${state.current}/${newName}`, (res) => {
             forward(state.current)
-            const res = JSON.parse(response)
             if (res.success) message.success('Success to rename.')
             else message.warn('Fail to rename.')
         })
     }
     // delete
     function handleDelete(dirs: string[], files: string[]) {
-        post('delete', JSON.stringify({ current: state.current, dirs: dirs, files: files }), (response) => {
+        post('delete', JSON.stringify({ current: state.current, dirs: dirs, files: files }), (res) => {
             forward(state.current)
-            const res = JSON.parse(response)
             if (res.success) message.success('Success to delete.')
             else message.warn('Fail to delete.')
         })
@@ -130,9 +125,8 @@ function App() {
             message.warn('New directory be supposed to be different from the old directory.')
             return
         } else {
-            post('copy', JSON.stringify({ oldDir: oldDir, newDir: state.current, dirs: dirs, files: files }), (response) => {
+            post('copy', JSON.stringify({ oldDir: oldDir, newDir: state.current, dirs: dirs, files: files }), (res) => {
                 forward(state.current)
-                const res = JSON.parse(response)
                 if (res.success) message.success('Success to copy.')
                 else message.warn('Fail to copy.')
             })
@@ -144,9 +138,8 @@ function App() {
             message.warn('New directory be supposed to be different from the old directory.')
             return
         } else {
-            post('move', JSON.stringify({ oldDir: oldDir, newDir: state.current, dirs: dirs, files: files }), (response) => {
+            post('move', JSON.stringify({ oldDir: oldDir, newDir: state.current, dirs: dirs, files: files }), (res) => {
                 forward(state.current)
-                const res = JSON.parse(response)
                 if (res.success) message.success('Success to move.')
                 else message.warn('Fail to move.')
             })
@@ -243,8 +236,7 @@ function App() {
                 setCurrentFile(name)
                 post('read', JSON.stringify({
                     path: `${state.current}/${name}`
-                }), (response) => {
-                    const res = JSON.parse(response)
+                }), (res) => {
                     if (res.success) {
                         setContent(res.data)
                     } else message.warn('Fail to open file')
@@ -263,8 +255,7 @@ function App() {
         setCurrentFile(name)
         post('read', JSON.stringify({
             path: `${state.current}/${name}`
-        }), (response) => {
-            const res = JSON.parse(response)
+        }), (res) => {
             if (res.success) {
                 setContent(res.data)
             } else message.warn('Fail to open file')
@@ -276,8 +267,7 @@ function App() {
         post('write', JSON.stringify({
             path: `${state.current}/${currentFile}`,
             data: content
-        }), (response) => {
-            const res = JSON.parse(response)
+        }), (res) => {
             if (res.success) message.success('Success to save the file.')
             else message.warn('Fail to open the file.')
             forward(state.current)
