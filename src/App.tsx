@@ -6,6 +6,7 @@ import Footer from './components/Footer'
 import Tab from './components/Tab'
 
 import { message } from 'antd'
+import copy from 'copy-to-clipboard'
 
 import { Controlled as CodeMirror } from 'react-codemirror2'
 import './utils/codemirror'
@@ -165,6 +166,13 @@ function App() {
         })
     }
 
+    function handleSelection(editor: any) {
+        if (editor.getSelection() !== '') {
+            if(copy(editor.getSelection())) message.success('Success to copy.')
+            else message.warn('Fail to copy.')
+        }
+    }
+
     function getView() {
         switch (currentTab) {
             case 'file':
@@ -204,6 +212,7 @@ function App() {
                                     matchBrackets: true,
                                     indentUnit: 4
                                 }}
+                                onSelection={handleSelection}
                                 editorDidMount={(editor) => setCmEditor(editor)}
                                 onBeforeChange={(editor, data, value) => {
                                     setContent(value)
@@ -221,7 +230,7 @@ function App() {
                                 }
                                 return keyList
                             })()}
-                            <span onClick={() => { cmEditor.focus(); cmEditor.replaceSelection('\t')}} className='orangex-edit-keyboard-item orangex-edit-keyboard-item-text'>tab</span>
+                            <span onClick={() => { cmEditor.focus(); cmEditor.replaceSelection('\t') }} className='orangex-edit-keyboard-item orangex-edit-keyboard-item-text'>tab</span>
                             <span onClick={handlePaste} className='orangex-edit-keyboard-item orangex-edit-keyboard-item-text'>paste</span>
                         </div>
                     </div>
