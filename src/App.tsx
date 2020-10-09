@@ -19,7 +19,7 @@ import {setUrl, getMIME, get, post} from './utils/utils'
 
 function App() {
 
-    // Main data stream
+    // Main path data stream
     const [state, setState] = useState(exampleJson)
 
     setUrl('http://127.0.0.1:1984/')
@@ -39,6 +39,8 @@ function App() {
     // eslint-disable-next-line
     useEffect(() => { forward('.') }, [])
 
+    
+    // selected dirs and selected files
     interface SelectedItems {
         [ItemName: string]: boolean
     }
