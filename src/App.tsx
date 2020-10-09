@@ -4,6 +4,7 @@ import ItemList from './components/ItemList'
 import Breadcrumb from './components/BreadCrumb'
 import Footer from './components/Footer'
 import Tab from './components/Tab'
+import Terminal from './components/Terminal'
 
 import { message } from 'antd'
 import copy from 'copy-to-clipboard'
@@ -243,7 +244,9 @@ function App() {
 
             case 'terminal':
                 return (
-                    <div className='app'>Terminal</div>
+                    <div className='app'>
+                        <Terminal />
+                    </div>
                 )
 
             default:
