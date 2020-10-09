@@ -157,6 +157,14 @@ function App() {
         })
     }
 
+    function handlePaste() {
+        cmEditor.focus()
+        get('clipboard', (res) => {
+            cmEditor.focus()
+            cmEditor.replaceSelection(res.data)
+        })
+    }
+
     function getView() {
         switch (currentTab) {
             case 'file':
@@ -213,6 +221,7 @@ function App() {
                                 }
                                 return keyList
                             })()}
+                            <span onClick={handlePaste} className='orangex-edit-keyboard-item orangex-edit-keyboard-item-text'>paste</span>
                         </div>
                     </div>
                 )

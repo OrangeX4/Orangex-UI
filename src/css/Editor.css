@@ -41,9 +41,15 @@
     display: flex;
     text-align: center;
     flex-wrap: wrap;
+    align-items: center;
 }
 
 .orangex-edit-keyboard-item {
     width: 6%;
     font-size: 20px;
+}
+
+.orangex-edit-keyboard-item-text {
+    width: 5%;
+    font-size: 15px;
 }
