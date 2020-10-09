@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
 
-import Item from './components/Item'
+import ItemList from './components/ItemList'
 import Breadcrumb from './components/BreadCrumb'
 import Footer from './components/Footer'
 import Tab from './components/Tab'
-import ConfirmDrawer from './components/ConfirmDrawer'
 
 import { message } from 'antd'
 
@@ -13,16 +12,9 @@ import './utils/codemirror'
 
 import './css/App.css'
 
-import folderImg from './assets/folder.png'
-import fileImg from './assets/file.png'
-import fileDocImg from './assets/file_doc.png'
-import fileImageImg from './assets/file_image.png'
-import fileVideoImg from './assets/file_video.png'
-
 import exampleJson from './json/example.json'
-import suffixJson from './json/suffix.json'
 
-import {setUrl, get, post} from './utils/utils'
+import {setUrl, getMIME, get, post} from './utils/utils'
 
 
 function App() {
@@ -47,6 +39,30 @@ function App() {
     // eslint-disable-next-line
     useEffect(() => { forward('.') }, [])
 
+    interface SelectedItems {
+        [ItemName: string]: boolean
+    }
+    const [selectedDirs, setSelectedDirs] = useState({} as SelectedItems)
+    const [selectedFiles, setSelectedFiles] = useState({} as SelectedItems)
+
+    function handleUnselect() {
+        setSelectedDirs({})
+        setSelectedFiles({})
+    }
+    function handleSelectall() {
+        const newSelectedDirs = {} as SelectedItems
+        state.dirs.forEach((dir) => {
+            newSelectedDirs[dir.name] = true
+        })
+        setSelectedDirs(newSelectedDirs)
+
+        const newSelectedFiles = {} as SelectedItems
+        state.files.forEach((file) => {
+            newSelectedFiles[file.name] = true
+        })
+        setSelectedFiles(newSelectedFiles)
+    }
+    
     // new file
     function handleNewFile(filename: string) {
         get(`newfile?name=${state.current}/${filename}`, (res) => {
@@ -106,80 +122,6 @@ function App() {
         }
     }
 
-
-    // Current selected items
-    interface SelectedItems {
-        [ItemName: string]: boolean
-    }
-
-    const [selectedDirs, setSelectedDirs] = useState({} as SelectedItems)
-    const [selectedFiles, setSelectedFiles] = useState({} as SelectedItems)
-
-    function handleSelectedDirChange(dirName: string) {
-        const newSelectedDirs = JSON.parse(JSON.stringify(selectedDirs))
-        newSelectedDirs[dirName] = newSelectedDirs[dirName] ? false : true
-        setSelectedDirs(newSelectedDirs)
-    }
-
-    function handleSelectedFileChange(fileName: string) {
-        const newSelectedFiles = JSON.parse(JSON.stringify(selectedFiles))
-        newSelectedFiles[fileName] = newSelectedFiles[fileName] ? false : true
-        setSelectedFiles(newSelectedFiles)
-    }
-
-
-    // Handle event
-    function handleUnselect() {
-        setSelectedDirs({})
-        setSelectedFiles({})
-    }
-    function handleSelectall() {
-        const newSelectedDirs = {} as SelectedItems
-        state.dirs.forEach((dir) => {
-            newSelectedDirs[dir.name] = true
-        })
-        setSelectedDirs(newSelectedDirs)
-
-        const newSelectedFiles = {} as SelectedItems
-        state.files.forEach((file) => {
-            newSelectedFiles[file.name] = true
-        })
-        setSelectedFiles(newSelectedFiles)
-    }
-
-    // file type
-    function getFileType(name: string) {
-
-        let type = 'file' as 'file' | 'document' | 'video' | 'image'
-        if (name.lastIndexOf('.') === -1) {
-            return type
-        }
-        const suffix = name.substring(name.lastIndexOf('.') + 1).toLowerCase()
-        suffixJson.document.forEach((value) => {
-            if (suffix === value) type = 'document'
-        })
-        suffixJson.image.forEach((value) => {
-            if (suffix === value) type = 'image'
-        })
-        suffixJson.video.forEach((value) => {
-            if (suffix === value) type = 'video'
-        })
-        return type
-    }
-    function getFileIcon(name: string) {
-
-        switch (getFileType(name)) {
-            case 'document':
-                return fileDocImg
-            case 'image':
-                return fileImageImg
-            case 'video':
-                return fileVideoImg
-            default:
-                return fileImg
-        }
-    }
-
     // Tab
     const [currentTab, setCurrentTab] = useState('file' as 'file' | 'edit' | 'terminal')
 
@@ -187,31 +129,7 @@ function App() {
     const [currentFile, setCurrentFile] = useState('Title')
     const [content, setContent] = useState('')
 
-    const [isDrawerDisplay, setIsDrawerDisplay] = useState(false)
-    const [savedFileName, setSavedFileName] = useState('')
-
-    function handleFileClick(name: string) {
-        switch (getFileType(name)) {
-            case 'document':
-                setCurrentFile(name)
-                post('read', JSON.stringify({
-                    path: `${state.current}/${name}`
-                }), (res) => {
-                    if (res.success) {
-                        setContent(res.data)
-                    } else message.warn('Fail to open file')
-                })
-                setCurrentTab('edit')
-                break
-            case 'file':
-                setSavedFileName(name)
-                setIsDrawerDisplay(true)
-                break
-            default:
-        }
-
-    }
-    function handleDrawerConfirm(name: string) {
+    function openFile(name: string) {
         setCurrentFile(name)
         post('read', JSON.stringify({
             path: `${state.current}/${name}`
@@ -221,8 +139,8 @@ function App() {
             } else message.warn('Fail to open file')
         })
         setCurrentTab('edit')
-        setIsDrawerDisplay(false)
     }
+
     function handleSaveFile() {
         post('write', JSON.stringify({
             path: `${state.current}/${currentFile}`,
@@ -233,18 +151,6 @@ function App() {
             forward(state.current)
         })
     }
-    interface SuffixJson {
-        mime: {
-            [name: string]: string
-        }
-        document: string[]
-        image: string[]
-        video: string[]
-    }
-    function getMIME(name: string) {
-        const suffix = name.substring(name.lastIndexOf('.') + 1).toLowerCase()
-        return (suffixJson as SuffixJson).mime[suffix]
-    }
 
     function getView() {
         switch (currentTab) {
@@ -252,27 +158,7 @@ function App() {
                 return (
                     <div className='app'>
                         <Breadcrumb text={state.current} />
-                        <div className='main'>
-                            <Item onClick={() => { forward(state.current + '/..') }} name='..' description='Return to parent folder' icon={folderImg} />
-                            <Item onClick={() => { forward(state.current + '/.') }} name='.' description='Refresh current folder' icon={folderImg} />
-                            {state.dirs.map((dir) => <Item
-                                onLongPress={() => handleSelectedDirChange(dir.name)}
-                                isSelect={selectedDirs[dir.name]}
-                                onClick={() => { forward(state.current + '/' + dir.name) }}
-                                name={dir.name}
-                                description={dir.items + ' Items'}
-                                icon={folderImg} key={dir.name}
-                            />)}
-                            {state.files.map((file) => <Item
-                                onClick={() => handleFileClick(file.name)}
-                                onLongPress={() => handleSelectedFileChange(file.name)}
-                                isSelect={selectedFiles[file.name]}
-                                name={file.name}
-                                description={file.showSize + ' | ' + file.lastTime}
-                                icon={getFileIcon(file.name)} key={file.name}
-                            />)}
-                            <ConfirmDrawer isDisplay={isDrawerDisplay} onConfirm={() => handleDrawerConfirm(savedFileName)} onCancle={() => setIsDrawerDisplay(false)}>Are you sure to edit the file?</ConfirmDrawer>
-                        </div>
+                        <ItemList setSelectedFiles={setSelectedFiles} setSelectedDirs={setSelectedDirs} selectedFiles={selectedFiles} selectedDirs={selectedDirs} state={state} forward={forward} openFile={openFile} />
                         <Footer
                             onDelete={handleDelete}
                             onRename={handleRename}
