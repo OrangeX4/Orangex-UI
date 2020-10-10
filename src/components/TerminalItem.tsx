@@ -4,6 +4,9 @@ import ConfirmDrawer from './ConfirmDrawer'
 interface Props {
     title: string
     content: string
+    onClick: (title: string) => void
+    onRun: (title: string) => void
+    onDelete: (title: string) => void
 }
 
 function TerminalItem(props: Props) {
@@ -26,7 +29,7 @@ function TerminalItem(props: Props) {
         clearTimeout(touchTimeOut)
         if (isClick) {
             // Click
-            alert('Click')
+            props.onClick(props.title)
         } else {
             setIsClick(true)
         }
@@ -43,7 +46,7 @@ function TerminalItem(props: Props) {
 
     function handleRun(e: React.TouchEvent<HTMLAnchorElement>|React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
         e.stopPropagation()
-        alert('Run')
+        props.onRun(props.title)
     }
     function handleDelete(e: React.TouchEvent<HTMLAnchorElement>|React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
         e.stopPropagation()
@@ -64,7 +67,7 @@ function TerminalItem(props: Props) {
                 
             </div>
             <div onMouseUp={(e) => e.stopPropagation()} onTouchEnd={(e) => e.stopPropagation()} onMouseDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()}>
-                <ConfirmDrawer isDisplay={isDrawerDisplay} onConfirm={() => {setIsDrawerDisplay(false); alert('delete')}} onCancle={() => {setIsDrawerDisplay(false); alert('cancle')}}>Are you sure to delete the item?</ConfirmDrawer>
+                <ConfirmDrawer isDisplay={isDrawerDisplay} onConfirm={() => {setIsDrawerDisplay(false); props.onDelete(props.title)}} onCancle={() => setIsDrawerDisplay(false)}>Are you sure to delete the item?</ConfirmDrawer>
             </div>
         </div>
     )

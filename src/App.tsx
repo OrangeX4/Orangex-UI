@@ -245,7 +245,7 @@ function App() {
             case 'terminal':
                 return (
                     <div className='app'>
-                        <Terminal />
+                        <Terminal onRun={(title, type) => {message.info(`Run ${title} of ${type}`)}} onDelete={(title, type) => {message.info(`Delete ${title} of ${type}`)}} />
                     </div>
                 )
 
