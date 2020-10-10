@@ -1,4 +1,3 @@
-import { message } from 'antd'
 import React, {useState} from 'react'
 import ConfirmDrawer from './ConfirmDrawer'
 
@@ -45,7 +44,6 @@ function TerminalItem(props: Props) {
     }
 
     function handleMouseDown() {
-        message.info('isTouch: ' + isTouch)
         if(!isTouch) {
             clearTimeout(touchTimeOut)
             setTouchTimeOut(setTimeout(() => {
@@ -58,7 +56,6 @@ function TerminalItem(props: Props) {
     }
 
     function handleMouseUp() {
-        message.info('isTouch: ' + isTouch)
         if(!isTouch) {
             clearTimeout(touchTimeOut)
             if (isClick) {
