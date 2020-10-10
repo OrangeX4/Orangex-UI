@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import { Drawer, Button, Input, Row, Col } from 'antd'
+import TextArea from 'antd/lib/input/TextArea'
 
 interface Props {
     title: string
@@ -22,9 +23,11 @@ function InputArea(props: Props) {
                 onClose={props.onClose}
                 closable={false}
                 visible={props.isDisplay}
-                height={150}
+                height={400}
                 key='drawer'>
                 <Row><Col span={24}><Input value={titleValue} onChange={(e) => setTitleValue(e.target.value)}/></Col></Row>
+                <br />
+                <Row><Col span={24}><TextArea value={contentValue} onChange={(e) => setContentValue(e.target.value)} rows={10}></TextArea></Col></Row>
                 <br />
                 <Row gutter={16}>
                     <Col span={12}><Button onClick={props.onCancle} shape="round" size='large' block={true}>Cancle</Button></Col>
