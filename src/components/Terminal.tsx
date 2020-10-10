@@ -28,6 +28,7 @@ interface currentJson {
 }
 
 interface Props {
+    current: string
     fileName: string
     defaultJson: DefaultJson
     currentJson: currentJson
@@ -47,6 +48,8 @@ function Terminal(props: Props) {
             if (key === props.fileName) {
                 currentFile[key].forEach((value) => {
                     NodeList.push(<TerminalItem
+                        current={props.current}
+                        fileName={props.fileName}
                         onDelete={(title) => props.onDelete(title, 'current-file')}
                         onRun={(title) => props.onRun(title, 'current-file')}
                         onChange={(oldTitle, newTitle, newContent) => props.onChange(oldTitle, newTitle, newContent, 'current-file')}
@@ -60,6 +63,8 @@ function Terminal(props: Props) {
             if (key === getSuffix(props.fileName)) {
                 defaultFile[key].forEach((value) => {
                     NodeList.push(<TerminalItem
+                        current={props.current}
+                        fileName={props.fileName}
                         onDelete={(title) => props.onDelete(title, 'default-file')}
                         onRun={(title) => props.onRun(title, 'default-file')}
                         onChange={(oldTitle, newTitle, newContent) => props.onChange(oldTitle, newTitle, newContent, 'default-file')}
@@ -81,23 +86,27 @@ function Terminal(props: Props) {
             <Divider>Current</Divider>
             {props.currentJson.current.map((value) => {
                 return (<TerminalItem
+                    current={props.current}
+                    fileName={props.fileName}
                     onDelete={(title) => props.onDelete(title, 'current')}
                     onRun={(title) => props.onRun(title, 'current')}
                     onChange={(oldTitle, newTitle, newContent) => props.onChange(oldTitle, newTitle, newContent, 'current')}
                     title={value.title}
                     content={value.content}
-                ></TerminalItem>)
-            })}
+                    ></TerminalItem>)
+                })}
             <Divider>Default</Divider>
             {props.defaultJson.default.map((value) => {
                 return (<TerminalItem
+                    current={props.current}
+                    fileName={props.fileName}
                     onDelete={(title) => props.onDelete(title, 'default')}
                     onRun={(title) => props.onRun(title, 'default')}
                     onChange={(oldTitle, newTitle, newContent) => props.onChange(oldTitle, newTitle, newContent, 'default')}
                     title={value.title}
                     content={value.content}
-                ></TerminalItem>)
-            })}
+                    ></TerminalItem>)
+                })}
         </div>
     )
 }

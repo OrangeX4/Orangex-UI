@@ -20,7 +20,6 @@ import keyboardJson from './json/keyboard.json'
 import commandJson from './json/command.json'
 
 import { setUrl, getMIME, get, post } from './utils/utils'
-import { OmitProps } from 'antd/lib/transfer/ListBody'
 
 
 function App() {
@@ -28,8 +27,8 @@ function App() {
     // Main path data stream
     const [state, setState] = useState(exampleJson)
 
-    // setUrl('http://127.0.0.1:1984/')
-    setUrl('http://192.168.137.1:1984/')
+    setUrl('http://127.0.0.1:1984/')
+    // setUrl('http://192.168.137.1:1984/')
 
     function forward(dirname: string) {
         get(`dir?name=${dirname}`, (res) => {
@@ -252,6 +251,7 @@ function App() {
                 return (
                     <div className='app'>
                         <Terminal
+                            current={state.current}
                             fileName={currentFile}
                             onChange={() => { message.info('change') }}
                             onRun={(title, type) => { message.info(`Run ${title} of ${type}`) }}

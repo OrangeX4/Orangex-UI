@@ -1,3 +1,4 @@
+import { message } from 'antd'
 import suffixJson from '../json/suffix.json'
 
 let _url = 'http://127.0.0.1:8080/'
@@ -67,4 +68,24 @@ export function getMIME(name: string) {
 
 export function getSuffix(name: string) {
     return name.substring(name.lastIndexOf('.') + 1).toLowerCase()
+}
+
+export function replace(content: string, current: string, fileName: string) {
+    return content.replace(new RegExp('&{current}','g'), current)
+        .replace(new RegExp('&{file}','g'), fileName)
+        .replace(new RegExp('&{file-without-suffix}','g'), fileName.substring(0, fileName.lastIndexOf('.')))
+}
+
+export function getFirstCode(content: string, current: string, fileName: string) {
+    let retValue = ''
+    const codes = content.split('\n')
+    if (codes.length === 0) return retValue
+    if (codes.length === 1) return codes[0]
+    codes.forEach((code) => {
+        const slices = code.split(' ')
+        if (slices.length > 0 && slices[0] !== 'cd' && retValue === '') {
+            retValue = replace(code, current, fileName)
+        }
+    })
+    return retValue
 }

@@ -3,7 +3,11 @@ import React, { useState } from 'react'
 import ConfirmDrawer from './ConfirmDrawer'
 import InputArea from './InputArea'
 
+import { getFirstCode } from '../utils/utils'
+
 interface Props {
+    current: string
+    fileName: string
     title: string
     content: string
     onChange: (oldTitle: string, newTitle: string, newContent: string) => void
@@ -89,7 +93,7 @@ function TerminalItem(props: Props) {
         <div className='terminal-item' onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} onTouchMove={handleTouchMove} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
             <div className='terminal-text'>
                 <div className='terminal-text-title'>{props.title}</div>
-                <div className='terminal-text-content'>{props.content}</div>
+                <div className='terminal-text-content'>{getFirstCode(props.content, props.current, props.fileName)}</div>
             </div>
             <div className='terminal-buttoncontainer'>
                 {isDelete ? <a onTouchEnd={(e) => e.stopPropagation()} onMouseUp={handleDelete} onMouseDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()} className='terminal-button' href='/#'>Delete</a>

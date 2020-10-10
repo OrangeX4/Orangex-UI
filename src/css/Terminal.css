@@ -39,6 +39,8 @@
 
 .terminal-text {
     display: inline-block;
+    width: calc(100% - 80px);
+    word-wrap:break-word;
 }
 .terminal-text-title {
     font-size: 20px;
