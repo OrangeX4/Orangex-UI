@@ -1,6 +1,9 @@
 import React from 'react'
 
-import { Divider } from 'antd';
+
+import { Divider } from 'antd'
+
+import TerminalItem from './TerminalItem'
 
 import '../css/Terminal.css'
 
@@ -14,29 +17,17 @@ function Terminal(props: Props) {
         <div className='terminal'>
             <div className='terminal-out'>Out:</div>
 
-            <Divider>Current</Divider>
-            <div className='terminal-item'>
-                <div className='terminal-text'>
-                    <div className='terminal-text-title'>Title</div>
-                    <div className='terminal-text-content'>Content</div>
-                </div>
-                <div className='terminal-buttoncontainer'>
-                    <a className='terminal-button'>Button</a>
-                    <a className='terminal-button'>Button</a>
-                </div>
-            </div>
-            <div className='terminal-item'>Content</div>
-            <div className='terminal-item'>Content</div>
-
             <Divider>File</Divider>
-            <div className='terminal-item'>Content</div>
-            <div className='terminal-item'>Content</div>
-            <div className='terminal-item'>Content</div>
+            <TerminalItem title='Title' content='content'></TerminalItem>
+            <TerminalItem title='Title' content='content'></TerminalItem>
+
+            <Divider>Current</Divider>
+            <TerminalItem title='Title' content='content'></TerminalItem>
+            <TerminalItem title='Title' content='content'></TerminalItem>
 
             <Divider>Default</Divider>
-            <div className='terminal-item'>Content</div>
-            <div className='terminal-item'>Content</div>
-            <div className='terminal-item'>Content</div>
+            <TerminalItem title='Title' content='content'></TerminalItem>
+            <TerminalItem title='Title' content='content'></TerminalItem>
 
         </div>
     )
