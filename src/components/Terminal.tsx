@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Divider } from 'antd'
 
@@ -9,6 +9,7 @@ import { getSuffix } from '../utils/utils'
 import addItemImg from '../assets/additem.png'
 
 import '../css/Terminal.css'
+import InputArea from './InputArea'
 
 interface Item {
     title: string
@@ -41,6 +42,28 @@ interface Props {
 }
 
 function Terminal(props: Props) {
+
+    const [isCurrentFileDisplay, setIsCurrentFileDisplay] = useState(false)
+    const [isDefaultFileDisplay, setIsDefaultFileDisplay] = useState(false)
+    const [isCurrentDisplay, setIsCurrentDisplay] = useState(false)
+    const [isDefaultDisplay, setIsDefaultDisplay] = useState(false)
+
+    function handleCurrentFile(title: string, content: string) {
+        setIsCurrentFileDisplay(false)
+        props.onAdd(title, content, 'current-file')
+    }
+    function handleDefaultFile(title: string, content: string) {
+        setIsDefaultFileDisplay(false)
+        props.onAdd(title, content, 'default-file')
+    }
+    function handleCurrent(title: string, content: string) {
+        setIsCurrentDisplay(false)
+        props.onAdd(title, content, 'current')
+    }
+    function handleDefault(title: string, content: string) {
+        setIsDefaultDisplay(false)
+        props.onAdd(title, content, 'default')
+    }
 
     function getFileView() {
         const NodeList = [] as JSX.Element[]
@@ -86,14 +109,16 @@ function Terminal(props: Props) {
             <Divider>File</Divider>
             {getFileView()}
             <div className='terminal-item terminal-item-double'>
-                <div className='terminal-imgbox-double'>
+                <div onClick={() => setIsCurrentFileDisplay(true)} className='terminal-imgbox-double'>
                     <img className='terminal-img' src={addItemImg} />
                     <div className='terminal-img-text'>Add to current</div>
                 </div>
-                <div className='terminal-imgbox-double terminal-imgbox-double-line'>
+                <InputArea title='' content='' isDisplay={isCurrentFileDisplay} onConfirm={handleCurrentFile} onCancle={() => setIsCurrentFileDisplay(false)} onClose={() => setIsCurrentFileDisplay(false)}></InputArea>
+                <div onClick={() => setIsDefaultFileDisplay(true)} className='terminal-imgbox-double terminal-imgbox-double-line'>
                     <img className='terminal-img' src={addItemImg} />
                     <div className='terminal-img-text'>Add to default</div>
                 </div>
+                <InputArea title='' content='' isDisplay={isDefaultFileDisplay} onConfirm={handleDefaultFile} onCancle={() => setIsDefaultFileDisplay(false)} onClose={() => setIsDefaultFileDisplay(false)}></InputArea>
             </div>
             <Divider>Current</Divider>
             {props.currentJson.current.map((value) => {
@@ -107,12 +132,13 @@ function Terminal(props: Props) {
                     content={value.content}
                     ></TerminalItem>)
                 })}
-            <div className='terminal-item'>
+            <div onClick={() => setIsCurrentDisplay(true)} className='terminal-item'>
                 <div className='terminal-imgbox'>
                     <img className='terminal-img' src={addItemImg} />
                     <div className='terminal-img-text'>Add</div>
                 </div>
             </div>
+            <InputArea title='' content='' isDisplay={isCurrentDisplay} onConfirm={handleCurrent} onCancle={() => setIsCurrentDisplay(false)} onClose={() => setIsCurrentDisplay(false)}></InputArea>
             <Divider>Default</Divider>
             {props.defaultJson.default.map((value) => {
                 return (<TerminalItem
@@ -125,12 +151,13 @@ function Terminal(props: Props) {
                     content={value.content}
                     ></TerminalItem>)
                 })}
-            <div className='terminal-item'>
+            <div onClick={() => setIsDefaultDisplay(true)} className='terminal-item'>
                 <div className='terminal-imgbox'>
                     <img className='terminal-img' src={addItemImg} />
                     <div className='terminal-img-text'>Add</div>
                 </div>
             </div>
+            <InputArea title='' content='' isDisplay={isDefaultDisplay} onConfirm={handleDefault} onCancle={() => setIsDefaultDisplay(false)} onClose={() => setIsDefaultDisplay(false)}></InputArea>
         </div>
     )
 }

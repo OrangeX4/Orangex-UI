@@ -25,9 +25,9 @@ function InputArea(props: Props) {
                 visible={props.isDisplay}
                 height={400}
                 key='drawer'>
-                <Row><Col span={24}><Input value={titleValue} onChange={(e) => setTitleValue(e.target.value)}/></Col></Row>
+                <Row><Col span={24}><Input placeholder='Title' value={titleValue} onChange={(e) => setTitleValue(e.target.value)}/></Col></Row>
                 <br />
-                <Row><Col span={24}><TextArea value={contentValue} onChange={(e) => setContentValue(e.target.value)} rows={10}></TextArea></Col></Row>
+                <Row><Col span={24}><TextArea placeholder='Content' value={contentValue} onChange={(e) => setContentValue(e.target.value)} rows={10}></TextArea></Col></Row>
                 <br />
                 <Row gutter={16}>
                     <Col span={12}><Button onClick={props.onCancle} shape="round" size='large' block={true}>Cancle</Button></Col>

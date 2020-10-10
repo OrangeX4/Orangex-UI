@@ -27,8 +27,8 @@ function App() {
     // Main path data stream
     const [state, setState] = useState(exampleJson)
 
-    setUrl('http://127.0.0.1:1984/')
-    // setUrl('http://192.168.137.1:1984/')
+    // setUrl('http://127.0.0.1:1984/')
+    setUrl('http://192.168.137.1:1984/')
 
     function forward(dirname: string) {
         get(`dir?name=${dirname}`, (res) => {
@@ -256,7 +256,7 @@ function App() {
                             onChange={() => { message.info('change') }}
                             onRun={(title, type) => { message.info(`Run ${title} of ${type}`) }}
                             onDelete={(title, type) => { message.info(`Delete ${title} of ${type}`) }}
-                            onAdd={(title, content, type) => { message.info(`Delete ${title} of ${type}`) }}
+                            onAdd={(title, content, type) => { message.info(`Add ${title} of ${type}`) }}
                             defaultJson={defaultJson}
                             currentJson={currentJson}
                         />
