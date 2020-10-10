@@ -51,7 +51,6 @@ function InputButton(props: Props) {
                     <Col span={12}><Button onClick={() => handleRename(inputValue)} type="primary" shape="round" size='large' block={true}>Ok</Button></Col>
                 </Row>
             </Drawer>
-
         </div>
     )
 }
