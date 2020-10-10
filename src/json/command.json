@@ -9,7 +9,7 @@
             "content": "ls"
         }
     ],
-    "default-file": {
+    "defaultFile": {
         "cpp": [
             {
                 "title": "Build & Run",
@@ -26,5 +26,7 @@
                 "content": "cd ${current}\nnode ${file}"
             }
         ]
-    }
+    },
+    "current": [],
+    "currentFile": {}
 }

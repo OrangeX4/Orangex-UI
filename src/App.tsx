@@ -17,6 +17,7 @@ import './css/Editor.css'
 
 import exampleJson from './json/example.json'
 import keyboardJson from './json/keyboard.json'
+import commandJson from './json/command.json'
 
 import { setUrl, getMIME, get, post } from './utils/utils'
 
@@ -169,10 +170,14 @@ function App() {
 
     function handleSelection(editor: any) {
         if (editor.getSelection() !== '') {
-            if(copy(editor.getSelection())) message.success('Success to copy.')
+            if (copy(editor.getSelection())) message.success('Success to copy.')
             else message.warn('Fail to copy.')
         }
     }
+
+    // Terminal
+    const [currentJson, setCurrentJson] = useState(commandJson)
+    const [defaultJson, setDefaultJson] = useState(commandJson)
 
     function getView() {
         switch (currentTab) {
@@ -204,8 +209,8 @@ function App() {
                         <div className='orangex-edit-title'>
                             <span>{currentFile}</span>
                             <a onClick={handleSaveFile} className='orangex-edit-title-button' href='/#'>Save</a>
-                            <a onClick={() => {cmEditor.focus(); cmEditor.redo()}} className='orangex-edit-title-button' href='/#'>Redo</a>
-                            <a onClick={() => {cmEditor.focus(); cmEditor.undo()}} className='orangex-edit-title-button' href='/#'>Undo</a>
+                            <a onClick={() => { cmEditor.focus(); cmEditor.redo() }} className='orangex-edit-title-button' href='/#'>Redo</a>
+                            <a onClick={() => { cmEditor.focus(); cmEditor.undo() }} className='orangex-edit-title-button' href='/#'>Undo</a>
                         </div>
                         <div className='orangex-edit-codemirror'>
                             <CodeMirror
@@ -245,7 +250,13 @@ function App() {
             case 'terminal':
                 return (
                     <div className='app'>
-                        <Terminal onChange={() => {message.info('change')}} onRun={(title, type) => {message.info(`Run ${title} of ${type}`)}} onDelete={(title, type) => {message.info(`Delete ${title} of ${type}`)}} />
+                        <Terminal
+                            onChange={() => { message.info('change') }}
+                            onRun={(title, type) => { message.info(`Run ${title} of ${type}`) }}
+                            onDelete={(title, type) => { message.info(`Delete ${title} of ${type}`) }}
+                            defaultJson={defaultJson}
+                            currentJson={currentJson}
+                        />
                     </div>
                 )
 

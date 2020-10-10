@@ -6,7 +6,28 @@ import TerminalItem from './TerminalItem'
 
 import '../css/Terminal.css'
 
+interface Item {
+    title: string
+    content: string
+}
+
+interface DefaultJson {
+    default: Item[]
+    defaultFile: {
+        [suffixName: string]: Item[]
+    }
+}
+
+interface currentJson {
+    current: Item[]
+    currentFile: {
+        [suffixName: string]: Item[]
+    }
+}
+
 interface Props {
+    defaultJson: DefaultJson
+    currentJson: currentJson
     onRun: (title: string, type: 'default'|'current'|'default-file'|'current-file') => void
     onDelete: (title: string, type: 'default'|'current'|'default-file'|'current-file') => void
     onChange: (oldTitle: string, newTitle: string, newContent: string, type: 'default'|'current'|'default-file'|'current-file') => void 
