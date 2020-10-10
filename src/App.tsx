@@ -253,6 +253,7 @@ function App() {
                         <Terminal
                             current={state.current}
                             fileName={currentFile}
+                            out='Out:'
                             onChange={() => { message.info('change') }}
                             onRun={(title, type) => { message.info(`Run ${title} of ${type}`) }}
                             onDelete={(title, type) => { message.info(`Delete ${title} of ${type}`) }}

@@ -33,6 +33,7 @@ interface currentJson {
 interface Props {
     current: string
     fileName: string
+    out: string
     defaultJson: DefaultJson
     currentJson: currentJson
     onRun: (title: string, type: 'default' | 'current' | 'default-file' | 'current-file') => void
@@ -104,18 +105,18 @@ function Terminal(props: Props) {
 
     return (
         <div className='terminal'>
-            <div className='terminal-out'>Out:</div>
+            <textarea value={props.out} className='terminal-out'></textarea>
 
             <Divider>File</Divider>
             {getFileView()}
             <div className='terminal-item terminal-item-double'>
                 <div onClick={() => setIsCurrentFileDisplay(true)} className='terminal-imgbox-double'>
-                    <img className='terminal-img' src={addItemImg} />
+                    <img className='terminal-img' src={addItemImg} alt='add' />
                     <div className='terminal-img-text'>Add to current</div>
                 </div>
                 <InputArea title='' content='' isDisplay={isCurrentFileDisplay} onConfirm={handleCurrentFile} onCancle={() => setIsCurrentFileDisplay(false)} onClose={() => setIsCurrentFileDisplay(false)}></InputArea>
                 <div onClick={() => setIsDefaultFileDisplay(true)} className='terminal-imgbox-double terminal-imgbox-double-line'>
-                    <img className='terminal-img' src={addItemImg} />
+                    <img className='terminal-img' src={addItemImg} alt='add' />
                     <div className='terminal-img-text'>Add to default</div>
                 </div>
                 <InputArea title='' content='' isDisplay={isDefaultFileDisplay} onConfirm={handleDefaultFile} onCancle={() => setIsDefaultFileDisplay(false)} onClose={() => setIsDefaultFileDisplay(false)}></InputArea>
@@ -134,7 +135,7 @@ function Terminal(props: Props) {
                 })}
             <div onClick={() => setIsCurrentDisplay(true)} className='terminal-item'>
                 <div className='terminal-imgbox'>
-                    <img className='terminal-img' src={addItemImg} />
+                    <img className='terminal-img' src={addItemImg} alt='add' />
                     <div className='terminal-img-text'>Add</div>
                 </div>
             </div>
@@ -153,7 +154,7 @@ function Terminal(props: Props) {
                 })}
             <div onClick={() => setIsDefaultDisplay(true)} className='terminal-item'>
                 <div className='terminal-imgbox'>
-                    <img className='terminal-img' src={addItemImg} />
+                    <img className='terminal-img' src={addItemImg} alt='add' />
                     <div className='terminal-img-text'>Add</div>
                 </div>
             </div>

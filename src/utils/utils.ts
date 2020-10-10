@@ -1,4 +1,3 @@
-import { message } from 'antd'
 import suffixJson from '../json/suffix.json'
 
 let _url = 'http://127.0.0.1:8080/'
