@@ -7,9 +7,9 @@ import TerminalItem from './TerminalItem'
 import '../css/Terminal.css'
 
 interface Props {
-    onRun: (title: string, type: string) => void
-    onDelete: (title: string, type: string) => void
-    onChange: (oldTitle: string, newTitle: string, newContent: string) => void 
+    onRun: (title: string, type: 'default'|'current'|'default-file'|'current-file') => void
+    onDelete: (title: string, type: 'default'|'current'|'default-file'|'current-file') => void
+    onChange: (oldTitle: string, newTitle: string, newContent: string, type: 'default'|'current'|'default-file'|'current-file') => void 
 }
 
 function Terminal(props: Props) {

@@ -95,7 +95,6 @@ function TerminalItem(props: Props) {
             <div className='terminal-buttoncontainer'>
                 {isDelete ? <a onTouchEnd={(e) => e.stopPropagation()} onMouseUp={handleDelete} onMouseDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()} className='terminal-button' href='/#'>Delete</a>
                     : <a onTouchEnd={(e) => e.stopPropagation()} onMouseUp={handleRun} onMouseDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()} className='terminal-button' href='/#'>Run</a>}
-
             </div>
             <div onMouseUp={(e) => e.stopPropagation()} onTouchEnd={(e) => e.stopPropagation()} onMouseDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()}>
                 <ConfirmDrawer isDisplay={isDrawerDisplay} onConfirm={() => { setIsDrawerDisplay(false); props.onDelete(props.title) }} onCancle={() => setIsDrawerDisplay(false)} onClose={() => setIsDrawerDisplay(false)}>Are you sure to delete the item?</ConfirmDrawer>
