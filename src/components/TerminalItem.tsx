@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import ConfirmDrawer from './ConfirmDrawer'
 
 interface Props {
     title: string
@@ -17,7 +18,7 @@ function TerminalItem(props: Props) {
             setIsClick(false)
 
             // Long Press
-            alert('Press')
+            setIsDelete(!isDelete)
         }, 500))
     }
 
@@ -36,10 +37,20 @@ function TerminalItem(props: Props) {
         setIsClick(false)
     }
 
+    // Run or Delete
+
+    const [isDelete, setIsDelete] = useState(false)
+
     function handleRun(e: React.TouchEvent<HTMLAnchorElement>|React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
         e.stopPropagation()
         alert('Run')
     }
+    function handleDelete(e: React.TouchEvent<HTMLAnchorElement>|React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
+        e.stopPropagation()
+        setIsDrawerDisplay(true)
+    }
+
+    const [isDrawerDisplay, setIsDrawerDisplay] = useState(false)
 
     return (
         <div className='terminal-item'  onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} onTouchMove={handleTouchMove} onMouseDown={handleTouchStart} onMouseUp={handleTouchEnd}>
@@ -48,7 +59,12 @@ function TerminalItem(props: Props) {
                 <div className='terminal-text-content'>{props.content}</div>
             </div>
             <div className='terminal-buttoncontainer'>
-                <a onMouseDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()} onTouchEnd={handleRun} onMouseUp={handleRun} className='terminal-button' href='/#'>Run</a>
+                {isDelete ? <a onTouchEnd={handleDelete} onMouseUp={handleDelete} onMouseDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()} className='terminal-button' href='/#'>Delete</a>
+                :<a onTouchEnd={handleRun} onMouseUp={handleRun} onMouseDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()} className='terminal-button' href='/#'>Run</a>}
+                
+            </div>
+            <div onMouseUp={(e) => e.stopPropagation()} onTouchEnd={(e) => e.stopPropagation()} onMouseDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()}>
+                <ConfirmDrawer isDisplay={isDrawerDisplay} onConfirm={() => {setIsDrawerDisplay(false); alert('delete')}} onCancle={() => {setIsDrawerDisplay(false); alert('cancle')}}>Are you sure to delete the item?</ConfirmDrawer>
             </div>
         </div>
     )

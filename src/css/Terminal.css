@@ -18,8 +18,19 @@
     box-shadow: 0 0 4px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
     border-radius: 5px;
-
     height: 75px;
+
+    -webkit-touch-callout: none;
+    /*系统默认菜单被禁用*/
+    -webkit-user-select: none;
+    /*webkit浏览器*/
+    -khtml-user-select: none;
+    /*早期浏览器*/
+    -moz-user-select: none;
+    /*火狐*/
+    -ms-user-select: none;
+    /*IE10*/
+    user-select: none;
 }
 
 .terminal-item:hover {
