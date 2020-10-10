@@ -1,18 +1,17 @@
-
 .react-codemirror2 {
-    height: 100%;
+    height: calc(100% - 27px);
 }
 
 .CodeMirror {
-    height: 100%;
+    height: calc(100% - 27px);
 }
 
 .orangex-edit-codemirror {
     padding-top: 25px;
-    height: 100%;
+    height: calc(100% - 27px);
 }
 .orangex-edit-main {
-    height: 100%;
+    height: calc(100% - 27px);
 }
 
 .orangex-edit-title {
