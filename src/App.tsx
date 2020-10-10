@@ -20,6 +20,7 @@ import keyboardJson from './json/keyboard.json'
 import commandJson from './json/command.json'
 
 import { setUrl, getMIME, get, post } from './utils/utils'
+import { OmitProps } from 'antd/lib/transfer/ListBody'
 
 
 function App() {
@@ -133,7 +134,7 @@ function App() {
     const [currentTab, setCurrentTab] = useState('file' as 'file' | 'edit' | 'terminal')
 
     // curren file
-    const [currentFile, setCurrentFile] = useState('Title')
+    const [currentFile, setCurrentFile] = useState('title.cpp')
     const [content, setContent] = useState('')
     const [cmEditor, setCmEditor] = useState(null as any)
 
@@ -251,9 +252,11 @@ function App() {
                 return (
                     <div className='app'>
                         <Terminal
+                            fileName={currentFile}
                             onChange={() => { message.info('change') }}
                             onRun={(title, type) => { message.info(`Run ${title} of ${type}`) }}
                             onDelete={(title, type) => { message.info(`Delete ${title} of ${type}`) }}
+                            onAdd={(title, content, type) => { message.info(`Delete ${title} of ${type}`) }}
                             defaultJson={defaultJson}
                             currentJson={currentJson}
                         />

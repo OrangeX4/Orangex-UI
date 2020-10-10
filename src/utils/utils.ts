@@ -64,3 +64,7 @@ export function getMIME(name: string) {
     const suffix = name.substring(name.lastIndexOf('.') + 1).toLowerCase()
     return (suffixJson as SuffixJson).mime[suffix]
 }
+
+export function getSuffix(name: string) {
+    return name.substring(name.lastIndexOf('.') + 1).toLowerCase()
+}
