@@ -6,6 +6,8 @@ import TerminalItem from './TerminalItem'
 
 import { getSuffix } from '../utils/utils'
 
+import addItemImg from '../assets/additem.png'
+
 import '../css/Terminal.css'
 
 interface Item {
@@ -83,6 +85,16 @@ function Terminal(props: Props) {
 
             <Divider>File</Divider>
             {getFileView()}
+            <div className='terminal-item terminal-item-double'>
+                <div className='terminal-imgbox-double'>
+                    <img className='terminal-img' src={addItemImg} />
+                    <div className='terminal-img-text'>Add to current</div>
+                </div>
+                <div className='terminal-imgbox-double terminal-imgbox-double-line'>
+                    <img className='terminal-img' src={addItemImg} />
+                    <div className='terminal-img-text'>Add to default</div>
+                </div>
+            </div>
             <Divider>Current</Divider>
             {props.currentJson.current.map((value) => {
                 return (<TerminalItem
@@ -95,6 +107,12 @@ function Terminal(props: Props) {
                     content={value.content}
                     ></TerminalItem>)
                 })}
+            <div className='terminal-item'>
+                <div className='terminal-imgbox'>
+                    <img className='terminal-img' src={addItemImg} />
+                    <div className='terminal-img-text'>Add</div>
+                </div>
+            </div>
             <Divider>Default</Divider>
             {props.defaultJson.default.map((value) => {
                 return (<TerminalItem
@@ -107,6 +125,12 @@ function Terminal(props: Props) {
                     content={value.content}
                     ></TerminalItem>)
                 })}
+            <div className='terminal-item'>
+                <div className='terminal-imgbox'>
+                    <img className='terminal-img' src={addItemImg} />
+                    <div className='terminal-img-text'>Add</div>
+                </div>
+            </div>
         </div>
     )
 }

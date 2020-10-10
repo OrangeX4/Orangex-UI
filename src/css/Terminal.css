@@ -64,3 +64,35 @@
     height: 55px;
     font-size: 25px;
 }
+.terminal-item-double {
+    display: flex;
+    align-items: center;
+}
+.terminal-imgbox {
+    display: flex;
+    width: 100%;
+    height: 50px;
+    flex-direction: column;
+    align-items: center;
+}
+.terminal-imgbox-double {
+    display: flex;
+    width: 50%;
+    height: 50px;
+    flex-direction: column;
+    align-items: center;
+}
+.terminal-imgbox-double-line {
+    border-left: solid;
+    border-width: 1px;
+    border-color: #51515140;
+}
+.terminal-img {
+    width: 40px;
+    height: 40px;
+}
+.terminal-img-text {
+    font-size: 13px;
+    font-weight: bold;
+    color: #1296db;
+}
