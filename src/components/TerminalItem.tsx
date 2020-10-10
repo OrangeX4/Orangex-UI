@@ -1,3 +1,4 @@
+import { message } from 'antd'
 import React, {useState} from 'react'
 import ConfirmDrawer from './ConfirmDrawer'
 
@@ -14,8 +15,11 @@ function TerminalItem(props: Props) {
     // Click and Press
     const [touchTimeOut, setTouchTimeOut] = useState(setTimeout(()=>{},0))
     const [isClick, setIsClick] = useState(true)
+    const [isTouch, setIsTouch] = useState(false)
 
     function handleTouchStart() {
+        setIsTouch(true)
+
         clearTimeout(touchTimeOut)
         setTouchTimeOut(setTimeout(() => {
             setIsClick(false)
@@ -40,6 +44,32 @@ function TerminalItem(props: Props) {
         setIsClick(false)
     }
 
+    function handleMouseDown() {
+        message.info('isTouch: ' + isTouch)
+        if(!isTouch) {
+            clearTimeout(touchTimeOut)
+            setTouchTimeOut(setTimeout(() => {
+                setIsClick(false)
+    
+                // Long Press
+                setIsDelete(!isDelete)
+            }, 500))
+        }
+    }
+
+    function handleMouseUp() {
+        message.info('isTouch: ' + isTouch)
+        if(!isTouch) {
+            clearTimeout(touchTimeOut)
+            if (isClick) {
+                // Click
+                props.onClick(props.title)
+            } else {
+                setIsClick(true)
+            }
+        }
+    }
+
     // Run or Delete
 
     const [isDelete, setIsDelete] = useState(false)
@@ -56,18 +86,18 @@ function TerminalItem(props: Props) {
     const [isDrawerDisplay, setIsDrawerDisplay] = useState(false)
 
     return (
-        <div className='terminal-item'  onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} onTouchMove={handleTouchMove} onMouseDown={handleTouchStart} onMouseUp={handleTouchEnd}>
+        <div className='terminal-item' onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} onTouchMove={handleTouchMove} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
             <div className='terminal-text'>
                 <div className='terminal-text-title'>{props.title}</div>
                 <div className='terminal-text-content'>{props.content}</div>
             </div>
             <div className='terminal-buttoncontainer'>
-                {isDelete ? <a onTouchEnd={handleDelete} onMouseUp={handleDelete} onMouseDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()} className='terminal-button' href='/#'>Delete</a>
-                :<a onTouchEnd={handleRun} onMouseUp={handleRun} onMouseDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()} className='terminal-button' href='/#'>Run</a>}
+                {isDelete ? <a onTouchEnd={(e) => e.stopPropagation()} onMouseUp={handleDelete} onMouseDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()} className='terminal-button' href='/#'>Delete</a>
+                :<a onTouchEnd={(e) => e.stopPropagation()} onMouseUp={handleRun} onMouseDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()} className='terminal-button' href='/#'>Run</a>}
                 
             </div>
             <div onMouseUp={(e) => e.stopPropagation()} onTouchEnd={(e) => e.stopPropagation()} onMouseDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()}>
-                <ConfirmDrawer isDisplay={isDrawerDisplay} onConfirm={() => {setIsDrawerDisplay(false); props.onDelete(props.title)}} onCancle={() => setIsDrawerDisplay(false)}>Are you sure to delete the item?</ConfirmDrawer>
+                <ConfirmDrawer isDisplay={isDrawerDisplay} onConfirm={() => {setIsDrawerDisplay(false); props.onDelete(props.title)}} onCancle={() => setIsDrawerDisplay(false)} onClose={() => setIsDrawerDisplay(false)}>Are you sure to delete the item?</ConfirmDrawer>
             </div>
         </div>
     )
