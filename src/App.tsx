@@ -27,8 +27,8 @@ function App() {
     // Main path data stream
     const [state, setState] = useState(exampleJson)
 
-    // setUrl('http://127.0.0.1:1984/')
-    setUrl('http://192.168.137.1:1984/')
+    setUrl('http://127.0.0.1:1984/')
+    // setUrl('http://192.168.137.1:1984/')
 
     function forward(dirname: string) {
         get(`dir?name=${dirname}`, (res) => {
@@ -387,7 +387,7 @@ function App() {
             if (res.success) {
                 setOutContent('Run:\n' + replace(content, state.current, currentFile) + '\n\nOut:\n' + res.out)
             } else {
-                setOutContent('Run:\n' + replace(content, state.current, currentFile) + '\n\nError:\n' + res.err)
+                setOutContent('Run:\n' + replace(content, state.current, currentFile) + '\n\nError:\n' + JSON.stringify(res.err))
             }
         })
     }
