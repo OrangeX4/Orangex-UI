@@ -386,7 +386,9 @@ function App() {
         }), (res) => {
             if (res.success) {
                 setOutContent('Run:\n' + replace(content, state.current, currentFile) + '\n\nOut:\n' + res.out)
-            } else message.warn('Fail to run script!')
+            } else {
+                setOutContent('Run:\n' + replace(content, state.current, currentFile) + '\n\nError:\n' + res.err)
+            }
         })
     }
 
