@@ -176,12 +176,28 @@ function App() {
     }
 
     // Terminal
-    const [currentJson, setCurrentJson] = useState(commandJson)
-    const [defaultJson, setDefaultJson] = useState(commandJson)
-    
+    interface Item {
+        title: string
+        content: string
+    }
+    interface DefaultJson {
+        default: Item[]
+        defaultFile: {
+            [suffixName: string]: Item[]
+        }
+    }
+    interface CurrentJson {
+        current: Item[]
+        currentFile: {
+            [suffixName: string]: Item[]
+        }
+    }
+    const [currentJson, setCurrentJson] = useState(commandJson as CurrentJson)
+    const [defaultJson, setDefaultJson] = useState(commandJson as DefaultJson)
+
     useEffect(() => {
         get(`config?current=${state.current}`, (res) => {
-            if(res.success) {
+            if (res.success) {
                 setCurrentJson(res.current)
                 setDefaultJson(res.default)
             } else message.warn('Fail to load config!')
@@ -189,6 +205,49 @@ function App() {
         })
     }, [state])
 
+    function handleTerminalAdd(title: string, content: string, type: 'default' | 'current' | 'default-file' | 'current-file') {
+        if (title === '') {
+            message.warn('Title should not be empty!')
+            return
+        }
+        switch (type) {
+            case 'default':
+                const defaultList: Item[] = []
+                defaultJson.default.forEach((value) => { if (value.title === title) defaultList.push(value) })
+                if (defaultList.length > 0) {
+                    defaultList[0].title = title
+                    defaultList[0].content = content
+                }
+                else defaultJson.default.push({ title: title, content: content })
+                post('saveDefaultConfig', JSON.stringify({
+                    data: JSON.stringify(defaultJson)
+                }), (res) => {
+                    forward(state.current)
+                    if (res.success) {
+                        message.success('Success to add config.')
+                    } else message.warn('Fail to add config.')
+                })
+                break
+            case 'current':
+                const currentList: Item[] = []
+                currentJson.current.forEach((value) => { if (value.title === title) currentList.push(value) })
+                if (currentList.length > 0) {
+                    currentList[0].title = title
+                    currentList[0].content = content
+                }
+                else currentJson.current.push({ title: title, content: content })
+                post('saveCurrentConfig', JSON.stringify({
+                    current: state.current,
+                    data: JSON.stringify(currentJson)
+                }), (res) => {
+                    forward(state.current)
+                    if (res.success) {
+                        message.success('Success to add config.')
+                    } else message.warn('Fail to add config.')
+                })
+                break
+        }
+    }
 
     function getView() {
         switch (currentTab) {
@@ -268,7 +327,7 @@ function App() {
                             onChange={() => { message.info('change') }}
                             onRun={(title, type) => { message.info(`Run ${title} of ${type}`) }}
                             onDelete={(title, type) => { message.info(`Delete ${title} of ${type}`) }}
-                            onAdd={(title, content, type) => { message.info(`Add ${title} of ${type}`) }}
+                            onAdd={ handleTerminalAdd }
                             defaultJson={defaultJson}
                             currentJson={currentJson}
                         />
