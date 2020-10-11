@@ -103,7 +103,7 @@ function TerminalItem(props: Props) {
                 <ConfirmDrawer isDisplay={isDrawerDisplay} onConfirm={() => { setIsDrawerDisplay(false); props.onDelete(props.title) }} onCancle={() => setIsDrawerDisplay(false)} onClose={() => setIsDrawerDisplay(false)}>Are you sure to delete the item?</ConfirmDrawer>
             </div>
             <div onMouseUp={(e) => e.stopPropagation()} onTouchEnd={(e) => e.stopPropagation()} onMouseDown={(e) => e.stopPropagation()} onTouchStart={(e) => e.stopPropagation()}>
-                <InputArea title={props.title} content={props.content} isDisplay={isInputDisplay} onConfirm={(title, content) => props.onChange(props.title, title, content)} onCancle={() => setIsInputDisplay(false)}></InputArea>
+                <InputArea title={props.title} content={props.content} isDisplay={isInputDisplay} onConfirm={(title, content) => {setIsInputDisplay(false); props.onChange(props.title, title, content)}} onCancle={() => setIsInputDisplay(false)}></InputArea>
             </div>
         </div>
     )

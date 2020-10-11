@@ -320,6 +320,64 @@ function App() {
         }
     }
 
+    function handleTerminalChange(oldTitle: string, newTitle: string, newContent: string, type: "default" | "current" | "default-file" | "current-file") {
+        if (newTitle === '') {
+            message.warn('Title should not be empty!')
+            return
+        }
+        switch (type) {
+            case 'default':
+                const defaultList: Item[] = []
+                defaultJson.default.forEach((value) => { if (value.title === oldTitle) defaultList.push(value) })
+                if (defaultList.length > 0) {
+                    defaultList[0].title = newTitle
+                    defaultList[0].content = newContent
+                } else message.warn("Can't find the item.")
+                saveDefaultConfig()
+                break
+            case 'current':
+                const currentList: Item[] = []
+                currentJson.current.forEach((value) => { if (value.title === oldTitle) currentList.push(value) })
+                if (currentList.length > 0) {
+                    currentList[0].title = newTitle
+                    currentList[0].content = newContent
+                }
+                else message.warn("Can't find the item.")
+                saveCurrentConfig()
+                break
+            case 'default-file':
+                const defaultFileList: Item[] = []
+                let defaultFiles = defaultJson.defaultFile[getSuffix(currentFile)]
+                if (defaultFiles === undefined || defaultFiles === undefined) {
+                    defaultJson.defaultFile[getSuffix(currentFile)] = []
+                    defaultFiles = defaultJson.defaultFile[getSuffix(currentFile)]
+                }
+                defaultFiles.forEach((value) => { if (value.title === oldTitle) defaultFileList.push(value) })
+                if (defaultFileList.length > 0) {
+                    defaultFileList[0].title = newTitle
+                    defaultFileList[0].content = newContent
+                }
+                else message.warn("Can't find the item.")
+                saveDefaultConfig()
+                break
+            case 'current-file':
+                const currentFileList: Item[] = []
+                let currentFiles = currentJson.currentFile[getSuffix(currentFile)]
+                if (currentFiles === undefined || currentFiles === undefined) {
+                    currentJson.currentFile[getSuffix(currentFile)] = []
+                    currentFiles = currentJson.currentFile[getSuffix(currentFile)]
+                }
+                currentFiles.forEach((value) => { if (value.title === oldTitle) currentFileList.push(value) })
+                if (currentFileList.length > 0) {
+                    currentFileList[0].title = newTitle
+                    currentFileList[0].content = newContent
+                }
+                else message.warn("Can't find the item.")
+                saveCurrentConfig()
+                break
+        }
+    }
+
     function getView() {
         switch (currentTab) {
             case 'file':
@@ -395,7 +453,7 @@ function App() {
                             current={state.current}
                             fileName={currentFile}
                             out='Out:'
-                            onChange={() => { message.info('change') }}
+                            onChange={handleTerminalChange}
                             onRun={(title, type) => { message.info(`Run ${title} of ${type}`) }}
                             onDelete={handleTerminalDelete}
                             onAdd={handleTerminalAdd}
