@@ -205,6 +205,29 @@ function App() {
         })
     }, [state])
 
+    function saveDefaultConfig() {
+        post('saveDefaultConfig', JSON.stringify({
+            data: JSON.stringify(defaultJson)
+        }), (res) => {
+            forward(state.current)
+            if (res.success) {
+                message.success('Success to add config.')
+            } else message.warn('Fail to add config.')
+        })
+    }
+
+    function saveCurrentConfig() {
+        post('saveCurrentConfig', JSON.stringify({
+            current: state.current,
+            data: JSON.stringify(currentJson)
+        }), (res) => {
+            forward(state.current)
+            if (res.success) {
+                message.success('Success to add config.')
+            } else message.warn('Fail to add config.')
+        })
+    }
+
     function handleTerminalAdd(title: string, content: string, type: 'default' | 'current' | 'default-file' | 'current-file') {
         if (title === '') {
             message.warn('Title should not be empty!')
@@ -219,14 +242,7 @@ function App() {
                     defaultList[0].content = content
                 }
                 else defaultJson.default.push({ title: title, content: content })
-                post('saveDefaultConfig', JSON.stringify({
-                    data: JSON.stringify(defaultJson)
-                }), (res) => {
-                    forward(state.current)
-                    if (res.success) {
-                        message.success('Success to add config.')
-                    } else message.warn('Fail to add config.')
-                })
+                saveDefaultConfig()
                 break
             case 'current':
                 const currentList: Item[] = []
@@ -236,20 +252,12 @@ function App() {
                     currentList[0].content = content
                 }
                 else currentJson.current.push({ title: title, content: content })
-                post('saveCurrentConfig', JSON.stringify({
-                    current: state.current,
-                    data: JSON.stringify(currentJson)
-                }), (res) => {
-                    forward(state.current)
-                    if (res.success) {
-                        message.success('Success to add config.')
-                    } else message.warn('Fail to add config.')
-                })
+                saveCurrentConfig()
                 break
             case 'default-file':
                 const defaultFileList: Item[] = []
                 let defaultFiles = defaultJson.defaultFile[getSuffix(currentFile)]
-                if( defaultFiles === undefined || defaultFiles === undefined) {
+                if (defaultFiles === undefined || defaultFiles === undefined) {
                     defaultJson.defaultFile[getSuffix(currentFile)] = []
                     defaultFiles = defaultJson.defaultFile[getSuffix(currentFile)]
                 }
@@ -259,19 +267,12 @@ function App() {
                     defaultFileList[0].content = content
                 }
                 else defaultFiles.push({ title: title, content: content })
-                post('saveDefaultConfig', JSON.stringify({
-                    data: JSON.stringify(defaultJson)
-                }), (res) => {
-                    forward(state.current)
-                    if (res.success) {
-                        message.success('Success to add config.')
-                    } else message.warn('Fail to add config.')
-                })
+                saveDefaultConfig()
                 break
             case 'current-file':
                 const currentFileList: Item[] = []
                 let currentFiles = currentJson.currentFile[getSuffix(currentFile)]
-                if( currentFiles === undefined || currentFiles === undefined) {
+                if (currentFiles === undefined || currentFiles === undefined) {
                     currentJson.currentFile[getSuffix(currentFile)] = []
                     currentFiles = currentJson.currentFile[getSuffix(currentFile)]
                 }
@@ -281,15 +282,40 @@ function App() {
                     currentFileList[0].content = content
                 }
                 else currentFiles.push({ title: title, content: content })
-                post('saveCurrentConfig', JSON.stringify({
-                    current: state.current,
-                    data: JSON.stringify(currentJson)
-                }), (res) => {
-                    forward(state.current)
-                    if (res.success) {
-                        message.success('Success to add config.')
-                    } else message.warn('Fail to add config.')
-                })
+                saveCurrentConfig()
+                break
+        }
+    }
+
+    function handleTerminalDelete(title: string, type: 'default' | 'current' | 'default-file' | 'current-file') {
+        if (title === '') {
+            message.warn('Title should not be empty!')
+            return
+        }
+        switch (type) {
+            case 'default':
+                const defaultList: Item[] = []
+                defaultJson.default.forEach((value) => { if (value.title !== title) defaultList.push(value) })
+                defaultJson.default = defaultList
+                saveDefaultConfig()
+                break
+            case 'current':
+                const currentList: Item[] = []
+                currentJson.current.forEach((value) => { if (value.title !== title) currentList.push(value) })
+                currentJson.current = currentList
+                saveCurrentConfig()
+                break
+            case 'default-file':
+                const defaultFileList: Item[] = []
+                defaultJson.defaultFile[getSuffix(currentFile)].forEach((value) => { if (value.title !== title) defaultFileList.push(value) })
+                defaultJson.defaultFile[getSuffix(currentFile)] = defaultFileList
+                saveDefaultConfig()
+                break
+            case 'current-file':
+                const currentFileList: Item[] = []
+                currentJson.currentFile[getSuffix(currentFile)].forEach((value) => { if (value.title !== title) currentFileList.push(value) })
+                currentJson.currentFile[getSuffix(currentFile)] = currentFileList
+                saveCurrentConfig()
                 break
         }
     }
@@ -371,8 +397,8 @@ function App() {
                             out='Out:'
                             onChange={() => { message.info('change') }}
                             onRun={(title, type) => { message.info(`Run ${title} of ${type}`) }}
-                            onDelete={(title, type) => { message.info(`Delete ${title} of ${type}`) }}
-                            onAdd={ handleTerminalAdd }
+                            onDelete={handleTerminalDelete}
+                            onAdd={handleTerminalAdd}
                             defaultJson={defaultJson}
                             currentJson={currentJson}
                         />
