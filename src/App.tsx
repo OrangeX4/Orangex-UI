@@ -178,6 +178,17 @@ function App() {
     // Terminal
     const [currentJson, setCurrentJson] = useState(commandJson)
     const [defaultJson, setDefaultJson] = useState(commandJson)
+    
+    useEffect(() => {
+        get(`config?current=${state.current}`, (res) => {
+            if(res.success) {
+                setCurrentJson(res.current)
+                setDefaultJson(res.default)
+            } else message.warn('Fail to load config!')
+
+        })
+    }, [state])
+
 
     function getView() {
         switch (currentTab) {

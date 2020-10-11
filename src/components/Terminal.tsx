@@ -23,7 +23,7 @@ interface DefaultJson {
     }
 }
 
-interface currentJson {
+interface CurrentJson {
     current: Item[]
     currentFile: {
         [suffixName: string]: Item[]
@@ -35,7 +35,7 @@ interface Props {
     fileName: string
     out: string
     defaultJson: DefaultJson
-    currentJson: currentJson
+    currentJson: CurrentJson
     onRun: (title: string, type: 'default' | 'current' | 'default-file' | 'current-file') => void
     onDelete: (title: string, type: 'default' | 'current' | 'default-file' | 'current-file') => void
     onChange: (oldTitle: string, newTitle: string, newContent: string, type: 'default' | 'current' | 'default-file' | 'current-file') => void
