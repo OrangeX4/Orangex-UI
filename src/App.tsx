@@ -422,6 +422,7 @@ function App() {
                             <a onClick={handleSaveFile} className='orangex-edit-title-button' href='/#'>Save</a>
                             <a onClick={() => { cmEditor.focus(); cmEditor.redo() }} className='orangex-edit-title-button' href='/#'>Redo</a>
                             <a onClick={() => { cmEditor.focus(); cmEditor.undo() }} className='orangex-edit-title-button' href='/#'>Undo</a>
+                            <a onClick={() => { cmEditor.focus(); copy(content); message.success('Success to copy all content')}} className='orangex-edit-title-button' href='/#'>Copy</a>
                         </div>
                         <div className='orangex-edit-codemirror'>
                             <CodeMirror
