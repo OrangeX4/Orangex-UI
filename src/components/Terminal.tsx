@@ -71,7 +71,7 @@ function Terminal(props: Props) {
         const currentFile = props.currentJson.currentFile
         const defaultFile = props.defaultJson.defaultFile
         for (const key in currentFile) {
-            if (key === props.fileName) {
+            if (key === getSuffix(props.fileName)) {
                 currentFile[key].forEach((value) => {
                     NodeList.push(<TerminalItem
                         current={props.current}

@@ -19,7 +19,7 @@ import exampleJson from './json/example.json'
 import keyboardJson from './json/keyboard.json'
 import commandJson from './json/command.json'
 
-import { setUrl, getMIME, get, post } from './utils/utils'
+import { setUrl, getSuffix, getMIME, get, post } from './utils/utils'
 
 
 function App() {
@@ -236,6 +236,51 @@ function App() {
                     currentList[0].content = content
                 }
                 else currentJson.current.push({ title: title, content: content })
+                post('saveCurrentConfig', JSON.stringify({
+                    current: state.current,
+                    data: JSON.stringify(currentJson)
+                }), (res) => {
+                    forward(state.current)
+                    if (res.success) {
+                        message.success('Success to add config.')
+                    } else message.warn('Fail to add config.')
+                })
+                break
+            case 'default-file':
+                const defaultFileList: Item[] = []
+                let defaultFiles = defaultJson.defaultFile[getSuffix(currentFile)]
+                if( defaultFiles === undefined || defaultFiles === undefined) {
+                    defaultJson.defaultFile[getSuffix(currentFile)] = []
+                    defaultFiles = defaultJson.defaultFile[getSuffix(currentFile)]
+                }
+                defaultFiles.forEach((value) => { if (value.title === title) defaultFileList.push(value) })
+                if (defaultFileList.length > 0) {
+                    defaultFileList[0].title = title
+                    defaultFileList[0].content = content
+                }
+                else defaultFiles.push({ title: title, content: content })
+                post('saveDefaultConfig', JSON.stringify({
+                    data: JSON.stringify(defaultJson)
+                }), (res) => {
+                    forward(state.current)
+                    if (res.success) {
+                        message.success('Success to add config.')
+                    } else message.warn('Fail to add config.')
+                })
+                break
+            case 'current-file':
+                const currentFileList: Item[] = []
+                let currentFiles = currentJson.currentFile[getSuffix(currentFile)]
+                if( currentFiles === undefined || currentFiles === undefined) {
+                    currentJson.currentFile[getSuffix(currentFile)] = []
+                    currentFiles = currentJson.currentFile[getSuffix(currentFile)]
+                }
+                currentFiles.forEach((value) => { if (value.title === title) currentFileList.push(value) })
+                if (currentFileList.length > 0) {
+                    currentFileList[0].title = title
+                    currentFileList[0].content = content
+                }
+                else currentFiles.push({ title: title, content: content })
                 post('saveCurrentConfig', JSON.stringify({
                     current: state.current,
                     data: JSON.stringify(currentJson)
