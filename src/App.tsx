@@ -402,7 +402,7 @@ function App() {
                         <Footer
                             onDelete={handleDelete}
                             onRename={handleRename}
-                            onTerminal={() => alert('terminal')}
+                            onTerminal={() => {copy('cd ' + state.current); message.success(`Copy "cd ${state.current}"`)}}
                             onSelectall={handleSelectall}
                             onUnselect={handleUnselect}
                             onNewFolder={handleNewFolder}
