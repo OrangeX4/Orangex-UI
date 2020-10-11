@@ -387,7 +387,7 @@ function App() {
             if (res.success) {
                 setOutContent('Run:\n' + replace(content, state.current, currentFile) + '\n\nOut:\n' + res.out)
             } else {
-                setOutContent('Run:\n' + replace(content, state.current, currentFile) + '\n\nError:\n' + JSON.stringify(res.err))
+                setOutContent('Run:\n' + replace(content, state.current, currentFile) + '\n\nError:\n' + res.err)
             }
         })
     }
