@@ -378,7 +378,7 @@ function App() {
         }
     }
 
-    const [outContent, setOutContent] = useState('Out:')
+    const [outContent, setOutContent] = useState(`Run:\n\nOut:\n\n(Don't support input data temporarily)`)
 
     function handleTerminalRun(title: string, content: string) {
         post('run', JSON.stringify({
