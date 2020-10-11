@@ -11,7 +11,7 @@ interface Props {
     title: string
     content: string
     onChange: (oldTitle: string, newTitle: string, newContent: string) => void
-    onRun: (title: string) => void
+    onRun: (title: string, content: string) => void
     onDelete: (title: string) => void
 }
 
@@ -79,7 +79,7 @@ function TerminalItem(props: Props) {
 
     function handleRun(e: React.TouchEvent<HTMLAnchorElement> | React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
         e.stopPropagation()
-        props.onRun(props.title)
+        props.onRun(props.title, props.content)
     }
     function handleDelete(e: React.TouchEvent<HTMLAnchorElement> | React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
         e.stopPropagation()

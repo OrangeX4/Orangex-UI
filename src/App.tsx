@@ -19,7 +19,7 @@ import exampleJson from './json/example.json'
 import keyboardJson from './json/keyboard.json'
 import commandJson from './json/command.json'
 
-import { setUrl, getSuffix, getMIME, get, post } from './utils/utils'
+import { setUrl, getSuffix, getMIME, get, post, replace } from './utils/utils'
 
 
 function App() {
@@ -378,6 +378,18 @@ function App() {
         }
     }
 
+    const [outContent, setOutContent] = useState('Out:')
+
+    function handleTerminalRun(title: string, content: string) {
+        post('run', JSON.stringify({
+            data: replace(content, state.current, currentFile)
+        }), (res) => {
+            if (res.success) {
+                setOutContent('Run:\n' + replace(content, state.current, currentFile) + '\n\nOut:\n' + res.out)
+            } else message.warn('Fail to run script!')
+        })
+    }
+
     function getView() {
         switch (currentTab) {
             case 'file':
@@ -452,9 +464,9 @@ function App() {
                         <Terminal
                             current={state.current}
                             fileName={currentFile}
-                            out='Out:'
+                            out={outContent}
                             onChange={handleTerminalChange}
-                            onRun={(title, type) => { message.info(`Run ${title} of ${type}`) }}
+                            onRun={handleTerminalRun}
                             onDelete={handleTerminalDelete}
                             onAdd={handleTerminalAdd}
                             defaultJson={defaultJson}

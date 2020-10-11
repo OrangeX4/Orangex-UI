@@ -36,7 +36,7 @@ interface Props {
     out: string
     defaultJson: DefaultJson
     currentJson: CurrentJson
-    onRun: (title: string, type: 'default' | 'current' | 'default-file' | 'current-file') => void
+    onRun: (title: string, content: string, type: 'default' | 'current' | 'default-file' | 'current-file') => void
     onDelete: (title: string, type: 'default' | 'current' | 'default-file' | 'current-file') => void
     onChange: (oldTitle: string, newTitle: string, newContent: string, type: 'default' | 'current' | 'default-file' | 'current-file') => void
     onAdd: (title: string, content: string, type: 'default' | 'current' | 'default-file' | 'current-file') => void
@@ -77,7 +77,7 @@ function Terminal(props: Props) {
                         current={props.current}
                         fileName={props.fileName}
                         onDelete={(title) => props.onDelete(title, 'current-file')}
-                        onRun={(title) => props.onRun(title, 'current-file')}
+                        onRun={(title, content) => props.onRun(title, content, 'current-file')}
                         onChange={(oldTitle, newTitle, newContent) => props.onChange(oldTitle, newTitle, newContent, 'current-file')}
                         title={value.title}
                         content={value.content}
@@ -92,7 +92,7 @@ function Terminal(props: Props) {
                         current={props.current}
                         fileName={props.fileName}
                         onDelete={(title) => props.onDelete(title, 'default-file')}
-                        onRun={(title) => props.onRun(title, 'default-file')}
+                        onRun={(title, content) => props.onRun(title, content, 'default-file')}
                         onChange={(oldTitle, newTitle, newContent) => props.onChange(oldTitle, newTitle, newContent, 'default-file')}
                         title={value.title}
                         content={value.content}
@@ -127,7 +127,7 @@ function Terminal(props: Props) {
                     current={props.current}
                     fileName={props.fileName}
                     onDelete={(title) => props.onDelete(title, 'current')}
-                    onRun={(title) => props.onRun(title, 'current')}
+                    onRun={(title, content) => props.onRun(title, content,'current')}
                     onChange={(oldTitle, newTitle, newContent) => props.onChange(oldTitle, newTitle, newContent, 'current')}
                     title={value.title}
                     content={value.content}
@@ -146,7 +146,7 @@ function Terminal(props: Props) {
                     current={props.current}
                     fileName={props.fileName}
                     onDelete={(title) => props.onDelete(title, 'default')}
-                    onRun={(title) => props.onRun(title, 'default')}
+                    onRun={(title, content) => props.onRun(title, content, 'default')}
                     onChange={(oldTitle, newTitle, newContent) => props.onChange(oldTitle, newTitle, newContent, 'default')}
                     title={value.title}
                     content={value.content}
